@@ -1,0 +1,12 @@
+.DS_Store
+
+.vagrant/
+
+*.box
+*.iso
+
+iso/*
+!iso/Vagrantfile
+!iso/Dockerfile
+!iso/.dockerignore
+!iso/assets/

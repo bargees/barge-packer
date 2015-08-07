@@ -1,0 +1,47 @@
+module VagrantPlugins
+  module GuestLinux
+    class Plugin < Vagrant.plugin("2")
+      guest_capability("linux", "change_host_name") do
+        Cap::ChangeHostName
+      end
+
+      guest_capability("linux", "configure_networks") do
+        Cap::ConfigureNetworks
+      end
+    end
+  end
+end
+
+Vagrant.configure(2) do |config|
+  config.vm.define "docker-root-iso"
+
+  config.vm.box = "ailispaw/rancheros-lite"
+
+  config.vm.provider :virtualbox do |vb|
+    vb.memory = 2048
+  end
+
+  config.vm.hostname = "docker-root-iso"
+
+  config.vm.network :forwarded_port, guest: 2375, host: 2375, auto_correct: true, disabled: true
+
+  config.vm.synced_folder "..", "/vagrant"
+
+  if Vagrant.has_plugin?("vagrant-triggers") then
+    config.trigger.after [:up, :resume] do
+      info "Adjusting datetime after suspend and resume."
+      run_remote "sudo sntp -4sSc pool.ntp.org; date"
+    end
+  end
+
+  # Adjusting datetime before provisioning.
+  config.vm.provision :shell, run: "always" do |sh|
+    sh.inline = "sntp -4sSc pool.ntp.org; date"
+  end
+
+  config.vm.provision :docker do |docker|
+    docker.build_image "/vagrant/iso/", args: "-t docker-root"
+    docker.run "docker-root", args: "--rm", cmd: "> /vagrant/docker-root.iso",
+      auto_assign_name: false, daemonize: false, restart: false
+  end
+end
