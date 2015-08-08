@@ -2,6 +2,7 @@ require_relative "vagrant_plugin_guest_busybox.rb"
 require_relative "mount_virtualbox_shared_folder.rb"
 
 Vagrant.configure("2") do |config|
+  config.ssh.shell = "bash"
   config.ssh.username = "docker"
 
   # Forward the Docker port
