@@ -10,7 +10,7 @@ Build a Vagrant box with [DockerRoot](https://github.com/ailispaw/docker-root)
 - Disable TLS of Docker for simplicity
 - Expose and forward the official IANA registered Docker port 2375
 - 40 GB persistent disk
-- 17 MB
+- 18 MB
 
 ## Vagrant up
 
