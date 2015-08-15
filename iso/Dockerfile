@@ -11,8 +11,8 @@ ENV KERNEL_VERSION 4.0.9
 COPY linux-${KERNEL_VERSION}.tar.xz ${SRCDIR}/
 RUN tar xJf linux-${KERNEL_VERSION}.tar.xz
 
-COPY kernel.config ${SRCDIR}/linux-${KERNEL_VERSION}/.config
-RUN cd ${SRCDIR}/linux-${KERNEL_VERSION} && \
+COPY kernel.config linux-${KERNEL_VERSION}/.config
+RUN cd linux-${KERNEL_VERSION} && \
     make oldconfig && \
     make prepare && make scripts && \
     make headers_install INSTALL_HDR_PATH=${SRCDIR}
@@ -30,11 +30,11 @@ RUN cd /vboxguest && \
 
 COPY rootfs.tar.xz ${SRCDIR}/
 RUN mkdir -p root && \
-    tar xJf /usr/src/rootfs.tar.xz -C root
+    tar xJf rootfs.tar.xz -C root
 
 RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
     cp /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/*.ko root/lib/modules/${KERNEL_VERSION}-docker-root/ && \
-    depmod -a -b /usr/src/root ${KERNEL_VERSION}-docker-root
+    depmod -a -b ${SRCDIR}/root ${KERNEL_VERSION}-docker-root
 
 ENV ISO /iso
 
