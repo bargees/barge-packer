@@ -8,3 +8,5 @@ DOCKER_HOST="-H unix:// -H tcp://0.0.0.0:2375"
 # DOCKER_EXTRA_ARGS="--userland-proxy=false"
 
 # DOCKER_ULIMITS=1048576
+
+# DOCKER_LOGFILE="/var/lib/docker-root/docker.log"
