@@ -39,7 +39,7 @@ RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
 ENV ISO /iso
 
 RUN mkdir -p ${ISO}/boot && \
-    cd root && find | cpio -H newc -o | lzma -c > ${ISO}/boot/initrd
+    cd root && find | cpio -H newc -o | xz -9 -C crc32 -c > ${ISO}/boot/initrd
 
 COPY bzImage ${ISO}/boot/
 
