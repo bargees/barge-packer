@@ -4,7 +4,7 @@ ISO_NAME := docker-root.iso
 PACKER  := packer
 VAGRANT := vagrant
 
-DOCKER_ROOT_VERSION := 0.10.1
+DOCKER_ROOT_VERSION := 0.10.2
 KERNEL_VERSION      := 4.0.9
 VBOX_VERSION        := 5.0.2
 
