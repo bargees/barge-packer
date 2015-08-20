@@ -10,3 +10,5 @@ iso/*
 !iso/Dockerfile
 !iso/.dockerignore
 !iso/assets/
+
+contrib/vagrant/index*
