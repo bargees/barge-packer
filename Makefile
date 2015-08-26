@@ -1,5 +1,6 @@
 BOX_NAME := docker-root.box
 ISO_NAME := docker-root.iso
+IMG_NAME := docker-root.qcow2
 
 PACKER  := packer
 VAGRANT := vagrant
@@ -12,6 +13,8 @@ box: $(BOX_NAME)
 
 iso: $(ISO_NAME)
 
+qemu: $(IMG_NAME)
+
 vbox: iso/assets/sbin/mount.vboxsf \
 	iso/assets/lib/modules/vboxguest.ko iso/assets/lib/modules/vboxsf.ko
 
@@ -19,7 +22,13 @@ $(BOX_NAME): $(ISO_NAME) box/template.json box/vagrantfile.tpl \
 	box/vagrant_plugin_guest_busybox.rb box/mount_virtualbox_shared_folder.rb \
 	box/assets/profile box/assets/init.sh
 	cd box && \
-		$(PACKER) build template.json
+		$(PACKER) build -only=virtualbox template.json
+
+$(IMG_NAME): box/docker-root.iso box/docker-root.img box/template.json box/assets/profile
+	cd box && \
+		$(PACKER) build -only=qemu template.json
+	qemu-img convert -c -f qcow2 -O qcow2 box/output-qemu/docker-root.qcow2 $(IMG_NAME)
+	$(RM) -r box/output-qemu
 
 EXTERNAL_SOURCES := iso/linux-$(KERNEL_VERSION).tar.xz iso/vboxguest.iso \
 	iso/bzImage iso/rootfs.tar.xz iso/kernel.config
@@ -38,7 +47,7 @@ iso/linux-$(KERNEL_VERSION).tar.xz:
 iso/vboxguest.iso:
 	curl -L http://download.virtualbox.org/virtualbox/$(VBOX_VERSION)/VBoxGuestAdditions_$(VBOX_VERSION).iso -o $@
 
-iso/bzImage iso/rootfs.tar.xz:
+iso/bzImage iso/rootfs.tar.xz box/docker-root.iso box/docker-root.img:
 	curl -L https://github.com/ailispaw/docker-root/releases/download/v$(DOCKER_ROOT_VERSION)/$(@F) \
 		-o $@
 
@@ -77,8 +86,11 @@ clean:
 	$(VAGRANT) destroy -f
 	$(RM) -r .vagrant
 	$(RM) $(EXTERNAL_SOURCES)
+	$(RM) box/docker-root.iso box/docker-root.img
 	$(RM) $(BOX_NAME)
 	$(RM) $(ISO_NAME)
+	$(RM) $(IMG_NAME)
 	$(RM) -r box/packer_cache
+	$(RM) -r box/output-qemu
 
-.PHONY: box iso vbox install boot_test test clean
+.PHONY: box qemu iso vbox install boot_test test clean

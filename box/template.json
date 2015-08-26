@@ -27,10 +27,29 @@
       ["modifyvm", "{{.Name}}", "--nictype8", "virtio"],
       ["storagectl", "{{.Name}}", "--name", "SATA Controller", "--portcount", "2"]
     ]
+  }, {
+    "type": "qemu",
+    "vm_name": "docker-root.qcow2",
+    "iso_url": "docker-root.iso",
+    "iso_checksum_type": "none",
+    "boot_wait": "5s",
+    "ssh_username": "docker",
+    "ssh_password": "docker",
+    "shutdown_command": "sudo shutdown",
+    "disk_size": 40960,
+    "format": "qcow2",
+    "accelerator": "tcg",
+    "net_device": "virtio-net",
+    "disk_interface": "virtio",
+    "headless": true,
+    "qemuargs": [
+      ["-m", "1024"]
+    ]
   }],
 
   "provisioners": [{
     "type": "shell",
+    "only": ["virtualbox"],
     "inline": [
       "(echo n; echo p; echo 2; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/sda",
       "(echo t; echo 82; echo w;) | sudo fdisk /dev/sda",
@@ -44,19 +63,48 @@
     ]
   }, {
     "type": "file",
+    "only": ["qemu"],
+    "source": "docker-root.img",
+    "destination": "/tmp/docker-root.img"
+  }, {
+    "type": "shell",
+    "only": ["qemu"],
+    "inline": [
+      "sudo dd if=/tmp/docker-root.img of=/dev/vda",
+
+      "(echo n; echo p; echo 3; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/vda",
+      "(echo t; echo 3; echo 82; echo w;) | sudo fdisk /dev/vda",
+      "sudo mkswap -L DOCKERROOT-SWAP /dev/vda3",
+      "(echo n; echo p; echo 2; echo ; echo ; echo w;) | sudo fdisk /dev/vda",
+      "sudo mkfs.ext4 -b 4096 -i 4096 -F -L DOCKERROOT-DATA /dev/vda2",
+
+      "sudo mkdir -p /mnt/vda2",
+      "sudo mount -t ext4 /dev/vda2 /mnt/vda2",
+      "sudo mkdir -p /mnt/vda2/var/lib/docker-root"
+    ]
+  }, {
+    "type": "file",
     "source": "assets/",
     "destination": "/tmp"
   }, {
     "type": "shell",
+    "only": ["virtualbox"],
     "inline": [
       "sudo cp /tmp/profile /mnt/sda1/var/lib/docker-root/",
       "sudo cp /tmp/init.sh /mnt/sda1/var/lib/docker-root/",
       "sudo chmod +x /mnt/sda1/var/lib/docker-root/init.sh"
     ]
+  }, {
+    "type": "shell",
+    "only": ["qemu"],
+    "inline": [
+      "sudo cp /tmp/profile /mnt/vda2/var/lib/docker-root/"
+    ]
   }],
 
   "post-processors": [{
     "type": "vagrant",
+    "only": ["virtualbox"],
     "include": [
       "../docker-root.iso",
       "vagrant_plugin_guest_busybox.rb",

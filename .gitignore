@@ -4,6 +4,8 @@
 
 *.box
 *.iso
+*.img
+*.qcow2
 
 iso/*
 !iso/Vagrantfile

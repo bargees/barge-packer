@@ -10,7 +10,15 @@ Build a Vagrant box with [DockerRoot](https://github.com/ailispaw/docker-root)
 - Disable TLS of Docker for simplicity
 - Expose and forward the official IANA registered Docker port 2375
 - 40 GB persistent disk
-- 18 MB
+- 12 MB
+
+## Requirements to build
+
+- [VirtualBox](https://www.virtualbox.org/)
+- [Vagrant](https://www.vagrantup.com/)
+- [Packer](https://packer.io/)
+- [QEMU](www.qemu.org) to build docker-root.qcow2  
+  Cf.) https://github.com/ailispaw/docker-root-packer/tree/master/contrib/qemu
 
 ## Vagrant up
 
