@@ -47,7 +47,7 @@ RUN mkdir -p ${ISO}/boot/isolinux && \
     cp /usr/lib/syslinux/isolinux.bin ${ISO}/boot/isolinux/ && \
     cp /usr/lib/syslinux/linux.c32 ${ISO}/boot/isolinux/ldlinux.c32
 
-COPY assets/isolinux.cfg ${ISO}/boot/isolinux/
+COPY isolinux.cfg ${ISO}/boot/isolinux/
 
 # Copied from boot2docker, thanks.
 RUN cd ${ISO} && \

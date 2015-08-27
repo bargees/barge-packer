@@ -31,9 +31,9 @@ $(IMG_NAME): box/docker-root.iso box/docker-root.img box/template.json box/asset
 	$(RM) -r box/output-qemu
 
 EXTERNAL_SOURCES := iso/linux-$(KERNEL_VERSION).tar.xz iso/vboxguest.iso \
-	iso/bzImage iso/rootfs.tar.xz iso/kernel.config
+	iso/bzImage iso/rootfs.tar.xz iso/kernel.config iso/isolinux.cfg
 
-$(ISO_NAME): iso/Dockerfile iso/assets/isolinux.cfg $(EXTERNAL_SOURCES)
+$(ISO_NAME): iso/Dockerfile $(EXTERNAL_SOURCES)
 	$(VAGRANT) suspend
 	cd iso && \
 		$(VAGRANT) up --no-provision && \
@@ -51,7 +51,7 @@ iso/bzImage iso/rootfs.tar.xz box/docker-root.iso box/docker-root.img:
 	curl -L https://github.com/ailispaw/docker-root/releases/download/v$(DOCKER_ROOT_VERSION)/$(@F) \
 		-o $@
 
-iso/kernel.config:
+iso/kernel.config iso/isolinux.cfg:
 	curl -L https://raw.githubusercontent.com/ailispaw/docker-root/v$(DOCKER_ROOT_VERSION)/configs/$(@F) \
 		-o $@
 
