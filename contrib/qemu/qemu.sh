@@ -7,7 +7,8 @@ popd > /dev/null
 cd "${HERE}"
 
 if [ ! -f docker-root.qcow2 ];then
-  cp ../../docker-root.qcow2 .
+  cp ../../docker-root.qcow2 . 2>/dev/null \
+    || curl -OL https://github.com/ailispaw/docker-root-packer/releases/download/v1.0.0/docker-root.qcow2
 fi
 
 qemu-system-x86_64 -nographic -machine pc \
