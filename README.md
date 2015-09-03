@@ -1,16 +1,26 @@
-# DockerRoot Packer for Vagrant Box
+# DockerRoot Packer for VirtualBox and QEMU
 
-Build a Vagrant box with [DockerRoot](https://github.com/ailispaw/docker-root)
+This builds the following images with [DockerRoot](https://github.com/ailispaw/docker-root)
+
+- docker-root.iso (13MB) : LiveCD image with VirtualBox Guest Addtions
+- docker-root.box (12MB) : Vagrant box with docker-root.iso and 40GB HDD
+- docker-root.qcow2 (14MB) : qcow2 image with docker-root.img and 40GB HDD
+
+The raw docker-root images are at https://github.com/ailispaw/docker-root.
 
 ## Features
 
-- Support NFS synced folder
-- Support VirtualBox Shared Folder
-- Support Docker provisioner
 - Disable TLS of Docker for simplicity
-- Expose and forward the official IANA registered Docker port 2375
-- 40 GB persistent disk
-- 12 MB
+- In .box and .qcow2
+  - Expose the official IANA registered Docker port 2375
+  - 40 GB persistent disk image
+- With Vagrant
+  - Forward the official IANA registered Docker port 2375
+  - Support NFS synced folder
+  - Support VirtualBox Shared Folder
+  - Support Docker provisioner
+
+Note) Pay attention to **exposing the port 2375 without TLS**, as you see the above features.
 
 ## Requirements to build
 
