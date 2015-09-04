@@ -12,7 +12,7 @@ $ vagrant reload
 
 You don't need to recreate a VM, because the VM will mount the new ISO in the new version of the box automatically during `vagrant reload`.  
 But you need to update `~/.vagrant.d/data/machine-index/index` file manually.  
-(You can leave it, but you will get notifications on `vagrant box remove`.)
+(You can leave it, but you will get warnings on `vagrant box remove`.)
 
 ### How to Check the Index file
 
@@ -22,16 +22,16 @@ But you need to update `~/.vagrant.d/data/machine-index/index` file manually.
 - [jq](http://stedolan.github.io/jq/) to parse the index file
 
 ```
-$ git clone https://github.com/ailispaw/docker-root
-$ cd rancheros-lite/contrib/upgrade
+$ git clone https://github.com/ailispaw/docker-root-packer
+$ cd docker-root-packer/contrib/vagrant
 $ ./check.sh ailispaw/docker-root
-Make sure I have the latest one.
+Updating the box to make sure you have the latest one.
 Checking for updates to 'ailispaw/docker-root'
-Latest installed version: 0.10.1
-Version constraints: > 0.10.1
+Latest installed version: 1.0.0
+Version constraints: > 1.0.0
 Provider: virtualbox
-Box 'ailispaw/rancheros-lite' (v0.10.1) is running the latest version.
-The latest version is 0.10.1.
+Box 'ailispaw/docker-root' (v1.0.0) is running the latest version.
+The latest version you have is 1.0.0.
 No need to update.
 ```
 
@@ -43,7 +43,7 @@ You can set `config.vm.box_version` as below and `vagrant reload`.
 Vagrant.configure(2) do |config|
   config.vm.box = "ailispaw/docker-root"
 
-  config.vm.box_version = "0.9.9"
+  config.vm.box_version = "0.11.0"
 end
 ```
 
