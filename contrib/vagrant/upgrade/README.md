@@ -23,7 +23,7 @@ But you need to update `~/.vagrant.d/data/machine-index/index` file manually.
 
 ```
 $ git clone https://github.com/ailispaw/docker-root-packer
-$ cd docker-root-packer/contrib/vagrant
+$ cd docker-root-packer/contrib/vagrant/upgrade
 $ ./check.sh ailispaw/docker-root
 Updating the box to make sure you have the latest one.
 Checking for updates to 'ailispaw/docker-root'

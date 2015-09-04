@@ -13,4 +13,4 @@ iso/*
 !iso/.dockerignore
 !iso/assets/
 
-contrib/vagrant/index*
+contrib/vagrant/upgrade/index*
