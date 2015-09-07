@@ -41,7 +41,7 @@ docker-root login:
 ```
 $ ssh -p 2222 docker@localhost -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 $ docker@localhost's password: 
-Welcome to DockerRoot version 0.11.0, Docker version 1.8.1, build d12ea79
+Welcome to DockerRoot version 1.0.1, Docker version 1.8.1, build d12ea79
 [docker@docker-root ~]$ 
 ```
 
@@ -67,16 +67,16 @@ Storage Driver: overlay
  Backing Filesystem: extfs
 Execution Driver: native-0.2
 Logging Driver: json-file
-Kernel Version: 4.0.9-docker-root
-Operating System: DockerRoot v0.11.0
+Kernel Version: 4.1.6-docker-root
+Operating System: DockerRoot v1.0.1
 CPUs: 1
-Total Memory: 999.9 MiB
+Total Memory: 999.8 MiB
 Name: docker-root
-ID: BNAU:2BMQ:5BCO:GAXO:BSVK:E4CF:HIK4:SYP6:ZG2S:3D6G:AQYP:NQMS
+ID: YYPI:UOZW:UVVK:MQPR:TN2M:PFRA:7TDB:TFGG:T7LO:VXHL:LFJE:HR2P
 Debug mode (server): true
-File Descriptors: 10
+File Descriptors: 13
 Goroutines: 16
-System Time: 2015-08-27T21:30:46.637098376Z
+System Time: 2015-09-07T00:32:07.818526661Z
 EventsListeners: 0
 Init SHA1:
 Init Path: /bin/docker
