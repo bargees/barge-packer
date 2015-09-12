@@ -14,3 +14,4 @@ iso/*
 !iso/assets/
 
 contrib/vagrant/upgrade/index*
+contrib/vagrant/secure/.docker/
