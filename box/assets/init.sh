@@ -1,11 +1,5 @@
 #!/bin/sh
 
-cat >> /etc/os-release << EOF
-HOME_URL="https://atlas.hashicorp.com/ailispaw/boxes/docker-root"
-SUPPORT_URL="https://github.com/ailispaw/docker-root"
-BUG_REPORT_URL="https://github.com/ailispaw/docker-root/issues"
-EOF
-
 logger -s -p user.info -t "init.sh[$$]" "Configuring for Vagrant"
 mkdir -p /home/docker/.ssh
 chmod 0700 /home/docker/.ssh
