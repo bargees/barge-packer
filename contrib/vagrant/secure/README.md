@@ -8,13 +8,11 @@ You need some steps to configure Docker daemon with TLS, because DockerRoot has 
 1. Download [generate_cert](https://github.com/SvenDowideit/generate_cert)
 1. Generate certificates with generate_cert
 1. Set TLS parameters for Docker daemon into /var/lib/docker-root/profile.
-1. Reboot the VM
+1. Restart the Docker daemon
 
 ## Automation with Vagrant
 
 ```ruby
-require_relative "vagrant_plugin_provisioner_reload.rb"
-
 Vagrant.configure(2) do |config|
   config.vm.define "docker-root-secure"
 
@@ -43,10 +41,9 @@ Vagrant.configure(2) do |config|
     sh.privileged = false
     sh.inline = <<-EOT
       cp -R ~/.docker /vagrant/
+      sudo /etc/init.d/docker restart
     EOT
   end
-
-  config.vm.provision :reload
 end
 ```
 
@@ -62,19 +59,19 @@ $ export DOCKER_CERT_PATH=./.docker
 $ export DOCKER_TLS_VERIFY=true
 $ docker version
 Client:
- Version:      1.8.2
+ Version:      1.8.3
  API version:  1.20
  Go version:   go1.4.2
- Git commit:   0a8c2e3
- Built:        Thu Sep 10 19:10:10 UTC 2015
+ Git commit:   f4bf5c7
+ Built:        Mon Oct 12 18:01:15 UTC 2015
  OS/Arch:      darwin/amd64
 
 Server:
- Version:      1.8.2
+ Version:      1.8.3
  API version:  1.20
  Go version:   go1.4.2
- Git commit:   0a8c2e3
- Built:        Thu Sep 10 19:10:10 UTC 2015
+ Git commit:   f4bf5c7
+ Built:        Mon Oct 12 18:01:15 UTC 2015
  OS/Arch:      linux/amd64
 ```
 
@@ -89,8 +86,3 @@ Server:
   Copyright 2014 Sven Dowideit  
   Licensed under the Apache License, Version 2.0  
   https://github.com/SvenDowideit/generate_cert/blob/master/LICENSE
-
-- [Vagrant Reload Provisioner](https://github.com/aidanns/vagrant-reload)  
-  Copyright (c) 2013 Aidan Nagorcka-Smith  
-  Licensed under the MIT license  
-  https://github.com/aidanns/vagrant-reload/blob/master/LICENSE.txt

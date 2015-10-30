@@ -12,7 +12,7 @@ fi
 : ${DOCKER_STORAGE:="overlay"}
 : ${DOCKER_DIR:="/var/lib/docker"}
 : ${DOCKER_HOST:="-H unix://"}
-: ${DOCKER_EXTRA_ARGS:="--userland-proxy=false"}
+: ${DOCKER_EXTRA_ARGS="--userland-proxy=false"}
 : ${DOCKER_ULIMITS:=1048576}
 : ${DOCKER_LOGFILE:="/var/lib/docker-root/docker.log"}
 

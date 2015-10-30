@@ -1,5 +1,3 @@
-require_relative "vagrant_plugin_provisioner_reload.rb"
-
 Vagrant.configure(2) do |config|
   config.vm.define "docker-root-secure"
 
@@ -28,8 +26,7 @@ Vagrant.configure(2) do |config|
     sh.privileged = false
     sh.inline = <<-EOT
       cp -R ~/.docker /vagrant/
+      sudo /etc/init.d/docker restart
     EOT
   end
-
-  config.vm.provision :reload
 end
