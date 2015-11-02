@@ -27,7 +27,7 @@ Note) Pay attention to **exposing the port 2375 without TLS**, as you see the ab
 - [VirtualBox](https://www.virtualbox.org/)
 - [Vagrant](https://www.vagrantup.com/)
 - [Packer](https://packer.io/)
-- [QEMU](www.qemu.org) to build docker-root.qcow2  
+- [QEMU](http://www.qemu.org) to build docker-root.qcow2  
   Cf.) https://github.com/ailispaw/docker-root-packer/tree/master/contrib/qemu
 
 ## Vagrant up

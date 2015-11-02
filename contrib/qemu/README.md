@@ -11,7 +11,7 @@ Build a qcow2 file with [DockerRoot](https://github.com/ailispaw/docker-root)
 
 ## Requirements
 
-- [QEMU](www.qemu.org)
+- [QEMU](http://www.qemu.org)
 - [Packer](https://packer.io/)
 
 ## Building
