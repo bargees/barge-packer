@@ -2,9 +2,9 @@
 
 This builds the following images with [DockerRoot](https://github.com/ailispaw/docker-root)
 
-- docker-root.iso (13MB) : LiveCD image with VirtualBox Guest Addtions
-- docker-root.box (12MB) : Vagrant box with docker-root.iso and 40GB HDD
-- docker-root.qcow2 (14MB) : qcow2 image with docker-root.img and 40GB HDD
+- docker-root.iso (14MB) : LiveCD image with VirtualBox Guest Addtions
+- docker-root.box (13MB) : Vagrant box with docker-root.iso and 40GB HDD
+- docker-root.qcow2 (16MB) : qcow2 image with docker-root.img and 40GB HDD
 
 The raw docker-root images are at https://github.com/ailispaw/docker-root.
 
