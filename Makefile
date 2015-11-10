@@ -7,7 +7,7 @@ VAGRANT := vagrant
 
 DOCKER_ROOT_VERSION := 1.1.2
 KERNEL_VERSION      := 4.1.13
-VBOX_VERSION        := 5.0.8
+VBOX_VERSION        := 5.0.10
 
 box: $(BOX_NAME)
 
