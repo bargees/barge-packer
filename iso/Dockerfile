@@ -20,11 +20,13 @@ RUN cd linux-${KERNEL_VERSION} && \
 ENV VBOX_VERSION 5.0.10
 RUN mkdir -p /vboxguest
 COPY vboxguest.iso /vboxguest/
+COPY regops.c.patch /vboxguest/
 RUN cd /vboxguest && \
     7z x vboxguest.iso -ir'!VBoxLinuxAdditions.run' && \
     sh VBoxLinuxAdditions.run --noexec --target . && \
     mkdir -p amd64 && tar -C amd64 -xjf VBoxGuestAdditions-amd64.tar.bz2 && \
     rm -rf amd64/src/vboxguest-${VBOX_VERSION}/vboxvideo && \
+    patch -u amd64/src/vboxguest-${VBOX_VERSION}/vboxsf/regops.c < /vboxguest/regops.c.patch && \
     KERN_DIR=${SRCDIR}/linux-${KERNEL_VERSION} KERN_INCL=${SRCDIR}/include \
         make -C amd64/src/vboxguest-${VBOX_VERSION}
 

@@ -12,6 +12,7 @@ iso/*
 !iso/Dockerfile
 !iso/.dockerignore
 !iso/assets/
+!iso/regops.c.patch
 
 contrib/vagrant/upgrade/index*
 contrib/vagrant/secure/.docker/

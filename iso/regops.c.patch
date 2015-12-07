@@ -1,0 +1,26 @@
+--- regops.c.org	2015-12-07 18:24:30.000000000 +0900
++++ regops.c	2015-12-07 18:26:40.000000000 +0900
+@@ -561,6 +561,14 @@
+     return 0;
+ }
+ 
++ssize_t sf_reg_splice_read(struct file *in, loff_t *ppos,
++                                 struct pipe_inode_info *pipe, size_t len,
++                                 unsigned int flags)
++{
++    invalidate_mapping_pages(in->f_mapping, 0, -1);
++    return generic_file_splice_read(in, ppos, pipe, len, flags);
++}
++
+ struct file_operations sf_reg_fops =
+ {
+     .read        = sf_reg_read,
+@@ -570,7 +578,7 @@
+     .mmap        = sf_reg_mmap,
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 0)
+ # if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
+-    .splice_read = generic_file_splice_read,
++    .splice_read = sf_reg_splice_read,
+ # else
+     .sendfile    = generic_file_sendfile,
+ # endif
