@@ -7,7 +7,7 @@ RUN apt-get update && \
 ENV SRCDIR /usr/src
 WORKDIR ${SRCDIR}
 
-ENV KERNEL_VERSION 4.3
+ENV KERNEL_VERSION 4.3.1
 COPY linux-${KERNEL_VERSION}.tar.xz ${SRCDIR}/
 RUN tar xJf linux-${KERNEL_VERSION}.tar.xz
 
@@ -35,8 +35,8 @@ RUN mkdir -p root && \
     tar xJf rootfs.tar.xz -C root
 
 RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
-    cp /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/*.ko root/lib/modules/${KERNEL_VERSION}.0-docker-root/ && \
-    depmod -a -b ${SRCDIR}/root ${KERNEL_VERSION}.0-docker-root
+    cp /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/*.ko root/lib/modules/${KERNEL_VERSION}-docker-root/ && \
+    depmod -a -b ${SRCDIR}/root ${KERNEL_VERSION}-docker-root
 
 ENV ISO /iso
 
