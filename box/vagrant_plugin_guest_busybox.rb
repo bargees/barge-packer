@@ -168,14 +168,3 @@ module VagrantPlugins
     end
   end
 end
-
-# Skip ensure_installed for Docker Provisioner
-require Vagrant.source_root.join("plugins/provisioners/docker/installer.rb")
-module VagrantPlugins
-  module DockerProvisioner
-    class Installer
-      def ensure_installed
-      end
-    end
-  end
-end
