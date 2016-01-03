@@ -1,3 +1,4 @@
+# A dummy plugin for DockerRoot to set hostname and network correctly
 module VagrantPlugins
   module GuestLinux
     class Plugin < Vagrant.plugin("2")
