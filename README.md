@@ -32,7 +32,7 @@ Note) Pay attention to **exposing the port 2375 without TLS**, as you see the ab
 
 ## Vagrant up
 
-```
+```bash
 $ vagrant box add ailispaw/docker-root
 $ vagrant init -m ailispaw/docker-root
 $ vagrant up
@@ -40,8 +40,8 @@ $ vagrant up
 
 ## Vagrantfile
 
-```
-# A dummy plugin for DockerRoot to set hostname and network correctly
+```ruby
+# A dummy plugin for DockerRoot to set hostname and network correctly at the very first `vagrant up`
 module VagrantPlugins
   module GuestLinux
     class Plugin < Vagrant.plugin("2")
