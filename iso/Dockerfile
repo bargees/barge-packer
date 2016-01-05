@@ -1,7 +1,7 @@
 FROM ubuntu-debootstrap:14.04.3
 
-RUN apt-get update && \
-    apt-get -q -y install bc curl xz-utils build-essential p7zip-full syslinux xorriso && \
+RUN apt-get -q update && \
+    apt-get -q -y install bc build-essential p7zip-full syslinux xorriso && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ENV SRCDIR /usr/src
