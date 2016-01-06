@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
     docker.pull_images "busybox"
     docker.run "simple-echo",
       image: "busybox",
-      args: "-p 8080:8080 --restart=always",
+      args: "-p 8080:8080",
       cmd: "nc -p 8080 -l -l -e echo hello world!"
   end
 
