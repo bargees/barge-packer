@@ -55,6 +55,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "docker-root"
 
   config.vm.box = "ailispaw/docker-root"
+  config.vm.box_version = ">= 1.2.8"
 
   config.vm.synced_folder ".", "/vagrant"
 
@@ -81,7 +82,7 @@ Vagrant.configure(2) do |config|
     d.pull_images "busybox"
     d.run "simple-echo",
       image: "busybox",
-      args: "-p 8080:8080 --restart=always",
+      args: "-p 8080:8080 -v /usr/bin/dumb-init:/dumb-init:ro --entrypoint=/dumb-init",
       cmd: "nc -p 8080 -l -l -e echo hello world!"
   end
 

@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
     docker.pull_images "busybox"
     docker.run "simple-echo",
       image: "busybox",
-      args: "-p 8080:8080",
+      args: "-p 8080:8080 -v /usr/bin/dumb-init:/dumb-init:ro --entrypoint=/dumb-init",
       cmd: "nc -p 8080 -l -l -e echo hello world!"
   end
 
