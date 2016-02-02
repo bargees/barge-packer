@@ -41,7 +41,7 @@ $(ISO_NAME): iso/Dockerfile $(EXTERNAL_SOURCES)
 		$(VAGRANT) suspend
 
 iso/linux-$(KERNEL_VERSION).tar.xz:
-	curl -L https://www.kernel.org/pub/linux/kernel/v4.x/linux-$(KERNEL_VERSION).tar.xz \
+	curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$(KERNEL_VERSION).tar.xz \
 		-o $@
 
 iso/vboxguest.iso:
