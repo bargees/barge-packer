@@ -1,7 +1,8 @@
 FROM ailispaw/ubuntu-essential
 
 RUN apt-get -q update && \
-    apt-get -q -y install bc build-essential cpio kmod p7zip-full syslinux xorriso && \
+    apt-get -q -y install --no-install-recommends bc build-essential \
+      cpio kmod p7zip-full syslinux xorriso && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ENV SRCDIR /usr/src
