@@ -47,4 +47,10 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.network :forwarded_port, guest: 8080, host: 8080
+
+  if Vagrant.has_plugin?("vagrant-serverspec") then
+    config.vm.provision :serverspec do |spec|
+      spec.pattern = "spec/docker-root-test/*_spec.rb"
+    end
+  end
 end
