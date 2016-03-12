@@ -5,7 +5,7 @@ IMG_NAME := docker-root.qcow2
 PACKER  := packer
 VAGRANT := vagrant
 
-DOCKER_ROOT_VERSION := 1.3.2
+DOCKER_ROOT_VERSION := 1.3.3
 KERNEL_VERSION      := 4.4.5
 VBOX_VERSION        := 5.0.16
 
