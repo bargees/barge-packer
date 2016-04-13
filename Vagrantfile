@@ -18,7 +18,8 @@ Vagrant.configure(2) do |config|
   config.vm.network "private_network", ip: "192.168.33.10"
 
   config.vm.synced_folder ".", "/vagrant"
-# config.vm.synced_folder ".", "/vagrant", type: "nfs", mount_options: ["nolock", "vers=3", "udp"]
+  # config.vm.synced_folder ".", "/vagrant", type: "nfs",
+  #   mount_options: ["nolock", "vers=3", "udp", "noatime", "actimeo=1"]
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "docker-root-test"
