@@ -24,16 +24,21 @@ COPY vboxguest.iso /vboxguest/
 COPY regops.c.patch /vboxguest/
 RUN cd /vboxguest && \
     7z x vboxguest.iso -ir'!VBoxLinuxAdditions.run' && \
+    rm -f vboxguest.iso && \
+    \
     sh VBoxLinuxAdditions.run --noexec --target . && \
     mkdir -p amd64 && tar -C amd64 -xjf VBoxGuestAdditions-amd64.tar.bz2 && \
+    rm -f VBoxGuestAdditions-amd64.tar.bz2 && \
+    \
     rm -rf amd64/src/vboxguest-${VBOX_VERSION}/vboxvideo && \
+    \
     patch -u amd64/src/vboxguest-${VBOX_VERSION}/vboxsf/regops.c < /vboxguest/regops.c.patch && \
+    \
     KERN_DIR=${SRCDIR}/linux-${KERNEL_VERSION} KERN_INCL=${SRCDIR}/include \
-        make -C amd64/src/vboxguest-${VBOX_VERSION}
+      make -C amd64/src/vboxguest-${VBOX_VERSION}
 
-COPY rootfs.tar.xz ${SRCDIR}/
-RUN mkdir -p root && \
-    tar xJf rootfs.tar.xz -C root
+RUN mkdir -p root
+ADD rootfs.tar.xz ${SRCDIR}/root/
 
 RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
     cp /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/*.ko root/lib/modules/${KERNEL_VERSION}-docker-root/ && \
