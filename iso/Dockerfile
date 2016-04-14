@@ -41,6 +41,8 @@ RUN mkdir -p root
 ADD rootfs.tar.xz ${SRCDIR}/root/
 
 RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
+    cp /vboxguest/amd64/sbin/VBoxService root/sbin/ && \
+    cp /vboxguest/amd64/bin/VBoxControl root/bin/ && \
     cp /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/*.ko root/lib/modules/${KERNEL_VERSION}-docker-root/ && \
     depmod -a -b ${SRCDIR}/root ${KERNEL_VERSION}-docker-root
 
