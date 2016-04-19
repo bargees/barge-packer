@@ -12,6 +12,19 @@ class Specinfra::Command::Busybox
       end
     end
 
+    class Process < Specinfra::Command::Base::Process
+      class << self
+        def get(process, opts)
+          col = opts[:format].chomp('=')
+          if col == 'args'
+            "ps -o #{col} | grep #{escape(process)} | head -1"
+          else
+            "ps -o #{col},args | grep -E '\\s+#{process}' | awk '{ print $1 }' | head -1"
+          end
+        end
+      end
+    end
+
     class RoutingTable < Specinfra::Command::Base::RoutingTable
       class << self
         def check_has_entry(destination)
