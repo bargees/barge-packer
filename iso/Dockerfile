@@ -43,8 +43,8 @@ ADD rootfs.tar.xz ${SRCDIR}/root/
 RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
     cp /vboxguest/amd64/sbin/VBoxService root/sbin/ && \
     cp /vboxguest/amd64/bin/VBoxControl root/bin/ && \
-    cp /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/*.ko root/lib/modules/${KERNEL_VERSION}-docker-root/ && \
-    depmod -a -b ${SRCDIR}/root ${KERNEL_VERSION}-docker-root
+    cp /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/*.ko root/lib/modules/${KERNEL_VERSION}-barge/ && \
+    depmod -a -b ${SRCDIR}/root ${KERNEL_VERSION}-barge
 
 ENV ISO /iso
 
@@ -64,10 +64,10 @@ RUN cd ${ISO} && \
     xorriso \
       -publisher "A.I. <ailis@paw.zone>" \
       -as mkisofs \
-      -l -J -R -V "DOCKER_ROOT" \
+      -l -J -R -V "BARGE" \
       -no-emul-boot -boot-load-size 4 -boot-info-table \
       -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat \
       -isohybrid-mbr /usr/lib/syslinux/isohdpfx.bin \
-      -no-pad -o /docker-root.iso $(pwd)
+      -no-pad -o /barge.iso $(pwd)
 
-CMD ["cat", "/docker-root.iso"]
+CMD ["cat", "/barge.iso"]

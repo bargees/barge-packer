@@ -1,4 +1,4 @@
-# A dummy plugin for DockerRoot to set hostname and network correctly at the very first `vagrant up`
+# A dummy plugin for Barge to set hostname and network correctly at the very first `vagrant up`
 module VagrantPlugins
   module GuestLinux
     class Plugin < Vagrant.plugin("2")
@@ -9,11 +9,11 @@ module VagrantPlugins
 end
 
 Vagrant.configure(2) do |config|
-  config.vm.define "docker-root-test"
+  config.vm.define "barge-test"
 
-  config.vm.box = "docker-root"
+  config.vm.box = "barge"
 
-  config.vm.hostname = "docker-root-test.example.com"
+  config.vm.hostname = "barge-test.example.com"
 
   config.vm.network "private_network", ip: "192.168.33.10"
 
@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
   #   mount_options: ["nolock", "vers=3", "udp", "noatime", "actimeo=1"]
 
   config.vm.provider :virtualbox do |vb|
-    vb.name = "docker-root-test"
+    vb.name = "barge-test"
     vb.gui = true
   end
 
@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
 
   if Vagrant.has_plugin?("vagrant-serverspec") then
     config.vm.provision :serverspec do |spec|
-      spec.pattern = "spec/docker-root-test/*_spec.rb"
+      spec.pattern = "spec/barge-test/*_spec.rb"
     end
   end
 end

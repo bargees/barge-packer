@@ -5,7 +5,7 @@ if [ "$(id -u)" != "0" ]; then
   exit 1
 fi
 
-: ${DOCKER_PROFILE:=/var/lib/docker-root/profile}
+: ${DOCKER_PROFILE:=/etc/default/docker}
 if [ -f ${DOCKER_PROFILE} ]; then
   . ${DOCKER_PROFILE}
 fi
@@ -14,7 +14,8 @@ fi
 : ${DOCKER_HOST:="-H unix://"}
 : ${DOCKER_EXTRA_ARGS="--userland-proxy=false"}
 : ${DOCKER_ULIMITS:=1048576}
-: ${DOCKER_LOGFILE:="/var/lib/docker-root/docker.log"}
+: ${DOCKER_LOGFILE:="/var/log/docker/docker.log"}
+: ${DOCKER_TIMEOUT:=5}
 
 : ${CERT_DIR:=/etc/docker}
 : ${CERT_INTERFACES:="eth0 eth1"}
@@ -26,7 +27,7 @@ fi
 : ${CERT:="${CERT_DIR}/cert.pem"}
 : ${KEY:="${CERT_DIR}/key.pem"}
 
-: ${ORG:=DockerRoot}
+: ${ORG:=Bargees}
 : ${SERVERORG:="${ORG}"}
 : ${CAORG:="${ORG}CA"}
 
@@ -77,12 +78,13 @@ echo "DOCKER_HOST=\"${DOCKER_HOST}\""             >> ${DOCKER_PROFILE}
 echo "DOCKER_EXTRA_ARGS=\"${DOCKER_EXTRA_ARGS}\"" >> ${DOCKER_PROFILE}
 echo "DOCKER_ULIMITS=${DOCKER_ULIMITS}"           >> ${DOCKER_PROFILE}
 echo "DOCKER_LOGFILE=\"${DOCKER_LOGFILE}\""       >> ${DOCKER_PROFILE}
+echo "DOCKER_TIMEOUT=${DOCKER_TIMEOUT}"           >> ${DOCKER_PROFILE}
 
-# now make the client certificates available to the docker user
-USERCFG="/home/docker/.docker"
+# now make the client certificates available to the bargee user
+USERCFG="/home/bargee/.docker"
 mkdir -p "${USERCFG}"
 chmod 700 "${USERCFG}"
 cp "$CACERT" "${USERCFG}"
 cp "$CERT" "${USERCFG}"
 cp "$KEY" "${USERCFG}"
-chown -R docker:docker "${USERCFG}"
+chown -R bargee:bargees "${USERCFG}"

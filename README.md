@@ -1,12 +1,12 @@
-# DockerRoot Packer for VirtualBox and QEMU
+# Barge Packer for VirtualBox and QEMU
 
-This builds the following images with [DockerRoot](https://github.com/ailispaw/docker-root)
+This builds the following images with [Barge](https://github.com/bargees/barge)
 
-- docker-root.iso (14MB) : LiveCD image with VirtualBox Guest Addtions
-- docker-root.box (13MB) : Vagrant box with docker-root.iso and 40GB HDD
-- docker-root.qcow2 (15MB) : qcow2 image with docker-root.img and 40GB HDD
+- barge.iso (14MB) : LiveCD image with VirtualBox Guest Addtions
+- barge.box (13MB) : Vagrant box with barge.iso and 40GB HDD
+- barge.qcow2 (15MB) : qcow2 image with barge.img and 40GB HDD
 
-The raw docker-root images are at https://github.com/ailispaw/docker-root.
+The raw Barge images are at https://github.com/bargees/barge.
 
 ## Features
 
@@ -27,21 +27,21 @@ Note) Pay attention to **exposing the port 2375 without TLS**, as you see the ab
 - [VirtualBox](https://www.virtualbox.org/)
 - [Vagrant](https://www.vagrantup.com/)
 - [Packer](https://packer.io/)
-- [QEMU](http://www.qemu.org) to build docker-root.qcow2  
-  Cf.) https://github.com/ailispaw/docker-root-packer/tree/master/contrib/qemu
+- [QEMU](http://www.qemu.org) to build barge.qcow2  
+  Cf.) https://github.com/bargees/barge-packer/tree/master/contrib/qemu
 
 ## Vagrant up
 
 ```bash
-$ vagrant box add ailispaw/docker-root
-$ vagrant init -m ailispaw/docker-root
+$ vagrant box add ailispaw/barge
+$ vagrant init -m ailispaw/barge
 $ vagrant up
 ```
 
 ## Vagrantfile
 
 ```ruby
-# A dummy plugin for DockerRoot to set hostname and network correctly at the very first `vagrant up`
+# A dummy plugin for Barge to set hostname and network correctly at the very first `vagrant up`
 module VagrantPlugins
   module GuestLinux
     class Plugin < Vagrant.plugin("2")
@@ -52,10 +52,9 @@ module VagrantPlugins
 end
 
 Vagrant.configure(2) do |config|
-  config.vm.define "docker-root"
+  config.vm.define "barge"
 
-  config.vm.box = "ailispaw/docker-root"
-  config.vm.box_version = ">= 1.3.9"
+  config.vm.box = "ailispaw/barge"
 
   config.vm.synced_folder ".", "/vagrant"
 

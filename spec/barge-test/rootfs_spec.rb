@@ -12,8 +12,8 @@ describe file('/var/lib/docker') do
   it { should be_linked_to '/mnt/sda1/var/lib/docker' }
 end
 
-describe file('/var/lib/docker-root') do
-  it { should be_linked_to '/mnt/sda1/var/lib/docker-root' }
+describe file('/var/log/docker') do
+  it { should be_linked_to '/mnt/sda1/var/log/docker' }
 end
 
 describe file('/home') do

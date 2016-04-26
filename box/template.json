@@ -2,13 +2,13 @@
   "builders": [{
     "name": "virtualbox",
     "type": "virtualbox-iso",
-    "vm_name": "docker-root-packer",
+    "vm_name": "barge-packer",
     "iso_interface": "sata",
-    "iso_url": "../docker-root.iso",
+    "iso_url": "../barge.iso",
     "iso_checksum_type": "none",
     "boot_wait": "5s",
-    "ssh_username": "docker",
-    "ssh_password": "docker",
+    "ssh_username": "bargee",
+    "ssh_password": "bargee",
     "shutdown_command": "sudo shutdown",
     "guest_additions_mode": "disable",
     "guest_os_type": "Linux26_64",
@@ -29,12 +29,12 @@
     ]
   }, {
     "type": "qemu",
-    "vm_name": "docker-root.qcow2",
-    "iso_url": "docker-root.iso",
+    "vm_name": "barge.qcow2",
+    "iso_url": "barge.iso",
     "iso_checksum_type": "none",
     "boot_wait": "5s",
-    "ssh_username": "docker",
-    "ssh_password": "docker",
+    "ssh_username": "bargee",
+    "ssh_password": "bargee",
     "shutdown_command": "sudo shutdown",
     "disk_size": 40960,
     "format": "qcow2",
@@ -53,34 +53,40 @@
     "inline": [
       "(echo n; echo p; echo 2; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/sda",
       "(echo t; echo 82; echo w;) | sudo fdisk /dev/sda",
-      "sudo mkswap -L DOCKERROOT-SWAP /dev/sda2",
+      "sudo mkswap -L BARGE-SWAP /dev/sda2",
       "(echo n; echo p; echo 1; echo ; echo ; echo w;) | sudo fdisk /dev/sda",
-      "sudo mkfs.ext4 -b 4096 -i 4096 -F -L DOCKERROOT-DATA /dev/sda1",
+      "sudo mkfs.ext4 -b 4096 -i 4096 -F -L BARGE-DATA /dev/sda1",
 
       "sudo mkdir -p /mnt/sda1",
       "sudo mount -t ext4 /dev/sda1 /mnt/sda1",
-      "sudo mkdir -p /mnt/sda1/var/lib/docker-root"
+
+      "sudo mkdir -p /mnt/sda1/etc",
+      "sudo mkdir -p /mnt/sda1/work/etc",
+      "sudo mount -t overlay overlay -o lowerdir=/etc,upperdir=/mnt/sda1/etc,workdir=/mnt/sda1/work/etc /etc"
     ]
   }, {
     "type": "file",
     "only": ["qemu"],
-    "source": "docker-root.img",
-    "destination": "/tmp/docker-root.img"
+    "source": "barge.img",
+    "destination": "/tmp/barge.img"
   }, {
     "type": "shell",
     "only": ["qemu"],
     "inline": [
-      "sudo dd if=/tmp/docker-root.img of=/dev/vda",
+      "sudo dd if=/tmp/barge.img of=/dev/vda",
 
       "(echo n; echo p; echo 3; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/vda",
       "(echo t; echo 3; echo 82; echo w;) | sudo fdisk /dev/vda",
-      "sudo mkswap -L DOCKERROOT-SWAP /dev/vda3",
+      "sudo mkswap -L BARGE-SWAP /dev/vda3",
       "(echo n; echo p; echo 2; echo ; echo ; echo w;) | sudo fdisk /dev/vda",
-      "sudo mkfs.ext4 -b 4096 -i 4096 -F -L DOCKERROOT-DATA /dev/vda2",
+      "sudo mkfs.ext4 -b 4096 -i 4096 -F -L BARGE-DATA /dev/vda2",
 
       "sudo mkdir -p /mnt/vda2",
       "sudo mount -t ext4 /dev/vda2 /mnt/vda2",
-      "sudo mkdir -p /mnt/vda2/var/lib/docker-root"
+
+      "sudo mkdir -p /mnt/vda2/etc",
+      "sudo mkdir -p /mnt/vda2/work/etc",
+      "sudo mount -t overlay overlay -o lowerdir=/etc,upperdir=/mnt/vda2/etc,workdir=/mnt/vda2/work/etc /etc"
     ]
   }, {
     "type": "file",
@@ -90,15 +96,17 @@
     "type": "shell",
     "only": ["virtualbox"],
     "inline": [
-      "sudo cp /tmp/profile /mnt/sda1/var/lib/docker-root/",
-      "sudo cp /tmp/init.sh /mnt/sda1/var/lib/docker-root/",
-      "sudo chmod +x /mnt/sda1/var/lib/docker-root/init.sh"
+      "sudo mkdir -p /etc/default/",
+      "sudo cp /tmp/profile /etc/default/docker",
+      "sudo cp /tmp/init.sh /etc/init.d/",
+      "sudo chmod +x /etc/init.d/init.sh"
     ]
   }, {
     "type": "shell",
     "only": ["qemu"],
     "inline": [
-      "sudo cp /tmp/profile /mnt/vda2/var/lib/docker-root/"
+      "sudo mkdir -p /etc/default/",
+      "sudo cp /tmp/profile /etc/default/docker"
     ]
   }],
 
@@ -106,11 +114,11 @@
     "type": "vagrant",
     "only": ["virtualbox"],
     "include": [
-      "../docker-root.iso",
+      "../barge.iso",
       "vagrant_plugin_guest_busybox.rb",
       "mount_virtualbox_shared_folder.rb"
     ],
     "vagrantfile_template": "vagrantfile.tpl",
-    "output": "../docker-root.box"
+    "output": "../barge.box"
   }]
 }

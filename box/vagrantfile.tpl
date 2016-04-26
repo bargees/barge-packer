@@ -2,7 +2,7 @@ require_relative "vagrant_plugin_guest_busybox.rb"
 require_relative "mount_virtualbox_shared_folder.rb"
 
 Vagrant.configure("2") do |config|
-  config.ssh.username = "docker"
+  config.ssh.username = "bargee"
 
   # Forward the Docker port
   config.vm.network :forwarded_port, guest: 2375, host: 2375, auto_correct: true
@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
       "--port", "1",
       "--device", "0",
       "--type", "dvddrive",
-      "--medium", File.expand_path("../docker-root.iso", __FILE__),
+      "--medium", File.expand_path("../barge.iso", __FILE__),
     ]
   end
 end

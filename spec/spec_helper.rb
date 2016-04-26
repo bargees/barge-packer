@@ -49,9 +49,9 @@ class Specinfra::Command::Busybox
   end
 end
 
-class Specinfra::Helper::DetectOs::DockerRoot < Specinfra::Helper::DetectOs
+class Specinfra::Helper::DetectOs::Barge < Specinfra::Helper::DetectOs
   def detect
-    if ( uname = run_command('uname -r').stdout ) && uname =~ /docker-root/i
+    if ( uname = run_command('uname -r').stdout ) && uname =~ /barge/i
       family = nil
       release = nil
       os_release = run_command("cat /etc/os-release")

@@ -1,39 +1,27 @@
 # Configure Docker Daemon with TLS Support
 
-You need some steps to configure Docker daemon with TLS, because DockerRoot has no TLS support by default.
+You need some steps to configure Docker daemon with TLS, because Barge has no TLS support by default.
 
 ## Scenario
 
-1. Boot up a DockerRoot VM without TLS
+1. Boot up a Barge VM without TLS
 1. Download [generate_cert](https://github.com/SvenDowideit/generate_cert)
 1. Generate certificates with generate_cert
-1. Set TLS parameters for Docker daemon into /var/lib/docker-root/profile.
+1. Set TLS parameters for Docker daemon into /etc/default/docker.
 1. Restart the Docker daemon
 
 ## Automation with Vagrant
 
 ```ruby
 Vagrant.configure(2) do |config|
-  config.vm.define "docker-root-secure"
+  config.vm.define "barge-secure"
 
-  config.vm.box = "ailispaw/docker-root"
+  config.vm.box = "ailispaw/barge"
 
   config.vm.network :forwarded_port, guest: 2375, host: 2375, auto_correct: true, disabled: true
   config.vm.network :forwarded_port, guest: 2376, host: 2376, auto_correct: true
 
   config.vm.synced_folder ".", "/vagrant"
-
-  if Vagrant.has_plugin?("vagrant-triggers") then
-    config.trigger.after [:up, :resume] do
-      info "Adjusting datetime after suspend and resume."
-      run_remote "sudo sntp -4sSc pool.ntp.org; date"
-    end
-  end
-
-  # Adjusting datetime before provisioning.
-  config.vm.provision :shell, run: "always" do |sh|
-    sh.inline = "sntp -4sSc pool.ntp.org; date"
-  end
 
   config.vm.provision :shell, path: "generate_certs.sh"
 
@@ -59,19 +47,19 @@ $ export DOCKER_CERT_PATH=./.docker
 $ export DOCKER_TLS_VERIFY=true
 $ docker version
 Client:
- Version:      1.8.3
- API version:  1.20
- Go version:   go1.4.2
- Git commit:   f4bf5c7
- Built:        Mon Oct 12 18:01:15 UTC 2015
+ Version:      1.9.1
+ API version:  1.21
+ Go version:   go1.4.3
+ Git commit:   a34a1d5
+ Built:        Fri Nov 20 17:56:04 UTC 2015
  OS/Arch:      darwin/amd64
 
 Server:
- Version:      1.8.3
- API version:  1.20
- Go version:   go1.4.2
- Git commit:   f4bf5c7
- Built:        Mon Oct 12 18:01:15 UTC 2015
+ Version:      1.9.1
+ API version:  1.21
+ Go version:   go1.4.3
+ Git commit:   66c06d0-stripped
+ Built:        Sun Jan 24 07:17:18 UTC 2016
  OS/Arch:      linux/amd64
 ```
 

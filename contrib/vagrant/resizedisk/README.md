@@ -1,21 +1,22 @@
-# Resize a Persistent Disk in a DockerRoot Vagrant box
+# Resize a Persistent Disk in a Barge Vagrant box
 
 It will convert a persistent disk from VMDK to VDI and resize it.
 
 ## How to Use
 
 ```
-$ vagrant box add ailispaw/docker-root
-$ vagrant init -m ailispaw/docker-root
+$ vagrant box add ailispaw/barge
+$ vagrant init -m ailispaw/barge
 $ vagrant up
 $ vagrant ssh -c 'df' -- -T
 Filesystem           1K-blocks      Used Available Use% Mounted on
-devtmpfs                506580         0    506580   0% /dev
-tmpfs                   511944         0    511944   0% /run
-cgroup                  511944         0    511944   0% /sys/fs/cgroup
-/dev/sda1             38255576     49204  36142504   0% /mnt/sda1
-overlay               38255576     49204  36142504   0% /etc
-$ curl -OL https://raw.githubusercontent.com/ailispaw/docker-root-packer/master/contrib/vagrant/resizedisk/resize.sh
+tmpfs                   920952     48760    872192   5% /
+devtmpfs                505844         0    505844   0% /dev
+tmpfs                   511640         0    511640   0% /run
+cgroup                  511640         0    511640   0% /sys/fs/cgroup
+/dev/sda1             38255576     49268  36142440   0% /mnt/sda1
+overlay               38255576     49268  36142440   0% /etc
+$ curl -OL https://raw.githubusercontent.com/bargees/barge-packer/master/contrib/vagrant/resizedisk/resize.sh
 $ chmod +x resize.sh
 $ ./resize.sh default 80000
 Stopping the VM...
@@ -31,11 +32,12 @@ Reboot and Resizing the partition...
 Complete successfully
 $ vagrant ssh -c 'df' -- -T
 Filesystem           1K-blocks      Used Available Use% Mounted on
-devtmpfs                506580         0    506580   0% /dev
-tmpfs                   511944         0    511944   0% /run
-cgroup                  511944         0    511944   0% /sys/fs/cgroup
-/dev/sda1             75735868     53204  72022760   0% /mnt/sda1
-overlay               75735868     53204  72022760   0% /etc
+tmpfs                   920952     48760    872192   5% /
+devtmpfs                505844         0    505844   0% /dev
+tmpfs                   511640         0    511640   0% /run
+cgroup                  511640         0    511640   0% /sys/fs/cgroup
+/dev/sda1             75735868     53284  72022680   0% /mnt/sda1
+overlay               75735868     53284  72022680   0% /etc
 ```
 
 ## Usage

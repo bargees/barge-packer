@@ -9,4 +9,6 @@ DOCKER_HOST="-H unix:// -H tcp://0.0.0.0:2375"
 
 # DOCKER_ULIMITS=1048576
 
-# DOCKER_LOGFILE="/var/lib/docker-root/docker.log"
+# DOCKER_LOGFILE="/var/log/docker/docker.log"
+
+# DOCKER_TIMEOUT=5

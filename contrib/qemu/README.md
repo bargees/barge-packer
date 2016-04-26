@@ -1,6 +1,6 @@
-# DockerRoot Packer for QEMU/KVM/Xen
+# Barge Packer for QEMU/KVM/Xen
 
-Build a qcow2 file with [DockerRoot](https://github.com/ailispaw/docker-root)
+Build a qcow2 file with [Barge](https://github.com/bargees/barge)
 
 ## Features
 
@@ -17,8 +17,8 @@ Build a qcow2 file with [DockerRoot](https://github.com/ailispaw/docker-root)
 ## Building
 
 ```
-$ git clone https://github.com/ailispaw/docker-root-packer.git
-$ cd docker-root-packer
+$ git clone https://github.com/bargees/barge-packer.git
+$ cd barge-packer
 $ make qemu
 ```
 
@@ -27,22 +27,22 @@ $ make qemu
 ```
 $ contrib/qemu/qemu.sh
 
-Welcome to DockerRoot docker-root /dev/ttyS0
-docker-root login: 
+Welcome to Barge barge /dev/ttyS0
+barge login: 
 ```
 
 ## Logging in
 
-- ID: docker
-- Password: docker
+- ID: bargee
+- Password: bargee
 
 
 ### form another console
 ```
-$ ssh -p 2222 docker@localhost -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
-$ docker@localhost's password: 
-Welcome to DockerRoot version 1.0.2, Docker version 1.8.2, build 0a8c2e3
-[docker@docker-root ~]$ 
+$ ssh -p 2222 bargee@localhost -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+$ bargee@localhost's password: 
+Welcome to Barge 2.0.0, Docker version 1.9.1, build 66c06d0-stripped
+[bargee@barge ~]$ 
 ```
 
 ## Shutting Down
@@ -50,10 +50,14 @@ Welcome to DockerRoot version 1.0.2, Docker version 1.8.2, build 0a8c2e3
 Use `shutdown` command to shut down in the VM.
 
 ```
-[docker@docker-root ~]$ sudo shutdown
-shutdown[290]: Executing shutdown scripts in /etc/init.d
+[bargee@barge ~]$ sudo shutdown
+shutdown[303]: Executing shutdown scripts in /etc/init.d
+Stopping crond... OK
+docker[311]: Loading /etc/default/docker
+docker[311]: Stopping Docker daemon
+Stopping sshd... OK
 Saving random seed... done.
-shutdown[290]: poweroff
+shutdown[303]: poweroff
 ```
 
 
@@ -63,22 +67,23 @@ shutdown[290]: poweroff
 $ docker info
 Containers: 0
 Images: 0
+Server Version: 1.9.1
 Storage Driver: overlay
  Backing Filesystem: extfs
 Execution Driver: native-0.2
 Logging Driver: json-file
-Kernel Version: 4.1.6-docker-root
-Operating System: DockerRoot v1.0.2
+Kernel Version: 4.4.8-barge
+Operating System: Barge 2.0.0
 CPUs: 1
-Total Memory: 999.8 MiB
-Name: docker-root
-ID: 6HNI:YYE5:Y5PL:O3KY:DGDU:Q2EO:OVYB:EXUV:Q57N:GKKV:4BH6:BC4X
+Total Memory: 999.2 MiB
+Name: barge
+ID: XLUR:UAG3:5H7O:BA63:5PBE:AVNY:GW4T:A3JP:2RID:4Q4M:SZOS:HY2E
 Debug mode (server): true
-File Descriptors: 11
-Goroutines: 16
-System Time: 2015-09-11T10:10:16.335650489Z
-EventsListeners: 0
-Init SHA1:
-Init Path: /bin/docker
-Docker Root Dir: /mnt/vda2/var/lib/docker
+ File Descriptors: 12
+ Goroutines: 18
+ System Time: 2016-04-26T21:42:18.905175024Z
+ EventsListeners: 0
+ Init SHA1:
+ Init Path: /opt/bin/docker
+ Docker Root Dir: /mnt/vda2/var/lib/docker
 ```

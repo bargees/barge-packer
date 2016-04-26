@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe user('docker') do
+describe user('bargee') do
   it { should exist }
-  it { should belong_to_group 'docker' }
-  it { should belong_to_primary_group 'docker' }
+  it { should belong_to_group 'bargees' }
+  it { should belong_to_primary_group 'bargees' }
   it { should have_uid 1000 }
-  it { should have_home_directory '/home/docker' }
+  it { should have_home_directory '/home/bargee' }
   it { should have_login_shell '/bin/bash' }
 end
 
-describe group('docker') do
+describe group('bargees') do
   it { should exist }
   it { should have_gid 1000 }
 end

@@ -1,13 +1,13 @@
-BOX_NAME := docker-root.box
-ISO_NAME := docker-root.iso
-IMG_NAME := docker-root.qcow2
+BOX_NAME := barge.box
+ISO_NAME := barge.iso
+IMG_NAME := barge.qcow2
 
 PACKER  := packer
 VAGRANT := vagrant
 
-DOCKER_ROOT_VERSION := 1.3.10
-KERNEL_VERSION      := 4.4.8
-VBOX_VERSION        := 5.0.18
+BARGE_VERSION  := 2.0.0
+KERNEL_VERSION := 4.4.8
+VBOX_VERSION   := 5.0.18
 
 box: $(BOX_NAME)
 
@@ -24,10 +24,10 @@ $(BOX_NAME): $(ISO_NAME) box/template.json box/vagrantfile.tpl \
 	cd box && \
 		$(PACKER) build -only=virtualbox template.json
 
-$(IMG_NAME): box/docker-root.iso box/docker-root.img box/template.json box/assets/profile
+$(IMG_NAME): box/barge.iso box/barge.img box/template.json box/assets/profile
 	cd box && \
 		$(PACKER) build -only=qemu template.json
-	qemu-img convert -c -f qcow2 -O qcow2 box/output-qemu/docker-root.qcow2 $(IMG_NAME)
+	qemu-img convert -c -f qcow2 -O qcow2 box/output-qemu/barge.qcow2 $(IMG_NAME)
 	$(RM) -r box/output-qemu
 
 EXTERNAL_SOURCES := iso/linux-$(KERNEL_VERSION).tar.xz iso/vboxguest.iso \
@@ -47,16 +47,16 @@ iso/linux-$(KERNEL_VERSION).tar.xz:
 iso/vboxguest.iso:
 	curl -L http://download.virtualbox.org/virtualbox/$(VBOX_VERSION)/VBoxGuestAdditions_$(VBOX_VERSION).iso -o $@
 
-iso/bzImage iso/rootfs.tar.xz box/docker-root.iso box/docker-root.img:
-	curl -L https://github.com/ailispaw/docker-root/releases/download/v$(DOCKER_ROOT_VERSION)/$(@F) \
+iso/bzImage iso/rootfs.tar.xz box/barge.iso box/barge.img:
+	curl -L https://github.com/bargees/barge/releases/download/v$(BARGE_VERSION)/$(@F) \
 		-o $@
 
 iso/kernel.config iso/isolinux.cfg:
-	curl -L https://raw.githubusercontent.com/ailispaw/docker-root/v$(DOCKER_ROOT_VERSION)/configs/$(@F) \
+	curl -L https://raw.githubusercontent.com/bargees/barge/v$(BARGE_VERSION)/configs/$(@F) \
 		-o $@
 
 install: $(BOX_NAME)
-	$(VAGRANT) box add -f docker-root $(BOX_NAME)
+	$(VAGRANT) box add -f barge $(BOX_NAME)
 
 boot_test: install
 	$(VAGRANT) destroy -f
@@ -86,7 +86,7 @@ clean:
 	$(VAGRANT) destroy -f
 	$(RM) -r .vagrant
 	$(RM) $(EXTERNAL_SOURCES)
-	$(RM) box/docker-root.iso box/docker-root.img
+	$(RM) box/barge.iso box/barge.img
 	$(RM) $(BOX_NAME)
 	$(RM) $(ISO_NAME)
 	$(RM) $(IMG_NAME)
