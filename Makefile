@@ -41,19 +41,16 @@ $(ISO_NAME): iso/Dockerfile $(EXTERNAL_SOURCES)
 		$(VAGRANT) suspend
 
 iso/linux-$(KERNEL_VERSION).tar.xz:
-	curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$(KERNEL_VERSION).tar.xz \
-		-o $@
+	curl -L https://cdn.kernel.org/pub/linux/kernel/v4.x/$(@F) -o $@
 
 iso/vboxguest.iso:
 	curl -L http://download.virtualbox.org/virtualbox/$(VBOX_VERSION)/VBoxGuestAdditions_$(VBOX_VERSION).iso -o $@
 
 iso/bzImage iso/rootfs.tar.xz box/barge.iso box/barge.img:
-	curl -L https://github.com/bargees/barge-os/releases/download/$(BARGE_VERSION)/$(@F) \
-		-o $@
+	curl -L https://github.com/bargees/barge-os/releases/download/$(BARGE_VERSION)/$(@F) -o $@
 
 iso/kernel.config iso/isolinux.cfg:
-	curl -L https://raw.githubusercontent.com/bargees/barge-os/$(BARGE_VERSION)/configs/$(@F) \
-		-o $@
+	curl -L https://raw.githubusercontent.com/bargees/barge-os/$(BARGE_VERSION)/configs/$(@F) -o $@
 
 install: $(BOX_NAME)
 	$(VAGRANT) box add -f barge $(BOX_NAME)
