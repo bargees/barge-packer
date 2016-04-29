@@ -4,7 +4,7 @@
 
 ```
 # Make sure you have the latest version of the box.
-$ vagrant box update --box ailispaw/docker-root --provider virtualbox
+$ vagrant box update --box ailispaw/barge --provider virtualbox
 # If you've suspended the target VM, you need to resume it not to break the persistent disk.
 $ vagrant resume
 $ vagrant reload
@@ -22,16 +22,16 @@ But you need to update `~/.vagrant.d/data/machine-index/index` file manually.
 - [jq](http://stedolan.github.io/jq/) to parse the index file
 
 ```
-$ git clone https://github.com/ailispaw/docker-root-packer
-$ cd docker-root-packer/contrib/vagrant/upgrade
-$ ./check.sh ailispaw/docker-root
+$ git clone https://github.com/bargees/barge-packer
+$ cd barge-packer/contrib/vagrant/upgrade
+$ ./check.sh ailispaw/barge
 Updating the box to make sure you have the latest one.
-Checking for updates to 'ailispaw/docker-root'
-Latest installed version: 1.0.0
-Version constraints: > 1.0.0
+Checking for updates to 'ailispaw/barge'
+Latest installed version: 2.0.0
+Version constraints: > 2.0.0
 Provider: virtualbox
-Box 'ailispaw/docker-root' (v1.0.0) is running the latest version.
-The latest version you have is 1.0.0.
+Box 'ailispaw/barge' (v2.0.0) is running the latest version.
+The latest version you have is 2.0.0.
 No need to update.
 ```
 
@@ -41,9 +41,9 @@ You can set `config.vm.box_version` as below and `vagrant reload`.
 
 ```ruby
 Vagrant.configure(2) do |config|
-  config.vm.box = "ailispaw/docker-root"
+  config.vm.box = "ailispaw/barge"
 
-  config.vm.box_version = "0.11.0"
+  config.vm.box_version = "2.0.0"
 end
 ```
 
