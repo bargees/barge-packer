@@ -48,11 +48,11 @@ iso/vboxguest.iso:
 	curl -L http://download.virtualbox.org/virtualbox/$(VBOX_VERSION)/VBoxGuestAdditions_$(VBOX_VERSION).iso -o $@
 
 iso/bzImage iso/rootfs.tar.xz box/barge.iso box/barge.img:
-	curl -L https://github.com/bargees/barge/releases/download/$(BARGE_VERSION)/$(@F) \
+	curl -L https://github.com/bargees/barge-os/releases/download/$(BARGE_VERSION)/$(@F) \
 		-o $@
 
 iso/kernel.config iso/isolinux.cfg:
-	curl -L https://raw.githubusercontent.com/bargees/barge/$(BARGE_VERSION)/configs/$(@F) \
+	curl -L https://raw.githubusercontent.com/bargees/barge-os/$(BARGE_VERSION)/configs/$(@F) \
 		-o $@
 
 install: $(BOX_NAME)
