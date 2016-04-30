@@ -1,22 +1,28 @@
 TARGETS := virtualbox qemu
-OBJECTS := barge.iso barge.box barge.qcow2
 
 all: $(TARGETS)
 
-virtualbox: barge.iso barge.box
+virtualbox: output/barge.iso output/barge.box
 
-qemu: barge.qcow2
+qemu: output/barge.qcow2
 
-barge.iso barge.box:
-	$(MAKE) -C virtualbox $@
-	cp virtualbox/$(@F) $@
+output/barge.iso output/barge.box: output/% : virtualbox/% | output
+	@install -CSv -m 0644 $< $@
 
-barge.qcow2:
-	$(MAKE) -C qemu $@
-	cp qemu/$(@F) $@
+virtualbox/barge.iso virtualbox/barge.box:
+	$(MAKE) -C virtualbox $(@F)
+
+output/barge.qcow2: output/% : qemu/% | output
+	@install -CSv -m 0644 $< $@
+
+qemu/barge.qcow2:
+	$(MAKE) -C qemu $(@F)
+
+output:
+	mkdir -p $@
 
 clean:
-	$(RM) $(OBJECTS)
+	$(RM) -r output
 	@for name in $(TARGETS); do \
 		$(MAKE) -C $${name} clean; \
 	done
