@@ -1,15 +1,15 @@
 # Barge Packer for QEMU/KVM/Xen
 
-Build a qcow2 file with [Barge](https://github.com/bargees/barge)
+Builds a qcow2 file with [Barge OS](https://github.com/bargees/barge-os)
 
 ## Features
 
 - Disable TLS of Docker for simplicity
 - Expose and forward the official IANA registered Docker port 2375
 - 40 GB persistent disk
-- 14 MB
+- 15 MB
 
-## Requirements
+## Requirements to build
 
 - [QEMU](http://www.qemu.org)
 - [Packer](https://packer.io/)
@@ -18,14 +18,14 @@ Build a qcow2 file with [Barge](https://github.com/bargees/barge)
 
 ```
 $ git clone https://github.com/bargees/barge-packer.git
-$ cd barge-packer
-$ make qemu
+$ cd barge-packer/qemu
+$ make
 ```
 
 ## Boot up
 
 ```
-$ contrib/qemu/qemu.sh
+$ make up
 
 Welcome to Barge barge /dev/ttyS0
 barge login: 
@@ -87,3 +87,10 @@ Debug mode (server): true
  Init Path: /opt/bin/docker
  Docker Root Dir: /mnt/vda2/var/lib/docker
 ```
+
+## License
+
+Copyright (c) 2015-2016 A.I. &lt;ailis@paw.zone&gt;
+
+Licensed under the GNU General Public License, version 2 (GPL-2.0)  
+http://opensource.org/licenses/GPL-2.0

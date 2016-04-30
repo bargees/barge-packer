@@ -1,83 +1,9 @@
 # Barge Packer for VirtualBox and QEMU
 
-This builds the following images with [Barge](https://github.com/bargees/barge)
+- for VirtualBox: [./virtualbox](./virtualbox)
+- for QEMU: [./qemu](./qemu)
 
-- barge.iso (14MB) : LiveCD image with VirtualBox Guest Addtions
-- barge.box (13MB) : Vagrant box with barge.iso and 40GB HDD
-- barge.qcow2 (15MB) : qcow2 image with barge.img and 40GB HDD
-
-The raw Barge images are at https://github.com/bargees/barge.
-
-## Features
-
-- Disable TLS of Docker for simplicity
-- In .box and .qcow2
-  - Expose the official IANA registered Docker port 2375
-  - 40 GB persistent disk image
-- With Vagrant
-  - Forward the official IANA registered Docker port 2375
-  - Support NFS synced folder
-  - Support VirtualBox Shared Folder
-  - Support Docker provisioner
-
-Note) Pay attention to **exposing the port 2375 without TLS**, as you see the above features.
-
-## Requirements to build
-
-- [VirtualBox](https://www.virtualbox.org/)
-- [Vagrant](https://www.vagrantup.com/)
-- [Packer](https://packer.io/)
-- [QEMU](http://www.qemu.org) to build barge.qcow2  
-  Cf.) https://github.com/bargees/barge-packer/tree/master/contrib/qemu
-
-## Vagrant up
-
-```bash
-$ vagrant box add ailispaw/barge
-$ vagrant init -m ailispaw/barge
-$ vagrant up
-```
-
-## Vagrantfile
-
-```ruby
-# A dummy plugin for Barge to set hostname and network correctly at the very first `vagrant up`
-module VagrantPlugins
-  module GuestLinux
-    class Plugin < Vagrant.plugin("2")
-      guest_capability("linux", "change_host_name") { Cap::ChangeHostName }
-      guest_capability("linux", "configure_networks") { Cap::ConfigureNetworks }
-    end
-  end
-end
-
-Vagrant.configure(2) do |config|
-  config.vm.define "barge"
-
-  config.vm.box = "ailispaw/barge"
-
-  config.vm.synced_folder ".", "/vagrant"
-
-  # for NFS synced folder
-  # config.vm.network "private_network", ip: "192.168.33.10"
-  # config.vm.synced_folder ".", "/vagrant", type: "nfs",
-  #   mount_options: ["nolock", "vers=3", "udp", "noatime", "actimeo=1"]
-
-  # for RSync synced folder
-  # config.vm.synced_folder ".", "/vagrant", type: "rsync",
-  #   rsync__args: ["--verbose", "--archive", "--delete", "--copy-links"]
-
-  config.vm.provision :docker do |d|
-    d.pull_images "busybox"
-    d.run "simple-echo",
-      image: "busybox",
-      args: "-p 8080:8080 -v /usr/bin/dumb-init:/dumb-init:ro --entrypoint=/dumb-init",
-      cmd: "nc -p 8080 -l -l -e echo hello world!"
-  end
-
-  config.vm.network :forwarded_port, guest: 8080, host: 8080
-end
-```
+The raw Barge images are at https://github.com/bargees/barge-os.
 
 ## License
 

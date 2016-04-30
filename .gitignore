@@ -7,12 +7,11 @@
 *.img
 *.qcow2
 
-iso/*
-!iso/Vagrantfile
-!iso/Dockerfile
-!iso/.dockerignore
-!iso/assets/
-!iso/regops.c.patch
+virtualbox/iso/*
+!virtualbox/iso/.dockerignore
+!virtualbox/iso/Vagrantfile
+!virtualbox/iso/Dockerfile
+!virtualbox/iso/regops.c.patch
 
 contrib/vagrant/upgrade/index*
 contrib/vagrant/secure/.docker/

@@ -27,29 +27,10 @@
       ["modifyvm", "{{.Name}}", "--nictype8", "virtio"],
       ["storagectl", "{{.Name}}", "--name", "SATA Controller", "--portcount", "2"]
     ]
-  }, {
-    "type": "qemu",
-    "vm_name": "barge.qcow2",
-    "iso_url": "barge.iso",
-    "iso_checksum_type": "none",
-    "boot_wait": "5s",
-    "ssh_username": "bargee",
-    "ssh_password": "bargee",
-    "shutdown_command": "sudo shutdown",
-    "disk_size": 40960,
-    "format": "qcow2",
-    "accelerator": "tcg",
-    "net_device": "virtio-net",
-    "disk_interface": "virtio",
-    "headless": true,
-    "qemuargs": [
-      ["-m", "1024"]
-    ]
   }],
 
   "provisioners": [{
     "type": "shell",
-    "only": ["virtualbox"],
     "inline": [
       "(echo n; echo p; echo 2; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/sda",
       "(echo t; echo 82; echo w;) | sudo fdisk /dev/sda",
@@ -66,47 +47,15 @@
     ]
   }, {
     "type": "file",
-    "only": ["qemu"],
-    "source": "barge.img",
-    "destination": "/tmp/barge.img"
-  }, {
-    "type": "shell",
-    "only": ["qemu"],
-    "inline": [
-      "sudo dd if=/tmp/barge.img of=/dev/vda",
-
-      "(echo n; echo p; echo 3; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/vda",
-      "(echo t; echo 3; echo 82; echo w;) | sudo fdisk /dev/vda",
-      "sudo mkswap -L BARGE-SWAP /dev/vda3",
-      "(echo n; echo p; echo 2; echo ; echo ; echo w;) | sudo fdisk /dev/vda",
-      "sudo mkfs.ext4 -b 4096 -i 4096 -F -L BARGE-DATA /dev/vda2",
-
-      "sudo mkdir -p /mnt/vda2",
-      "sudo mount -t ext4 /dev/vda2 /mnt/vda2",
-
-      "sudo mkdir -p /mnt/vda2/etc",
-      "sudo mkdir -p /mnt/vda2/work/etc",
-      "sudo mount -t overlay overlay -o lowerdir=/etc,upperdir=/mnt/vda2/etc,workdir=/mnt/vda2/work/etc /etc"
-    ]
-  }, {
-    "type": "file",
-    "source": "assets/",
+    "source": "../../assets/",
     "destination": "/tmp"
   }, {
     "type": "shell",
-    "only": ["virtualbox"],
     "inline": [
       "sudo mkdir -p /etc/default/",
       "sudo cp /tmp/profile /etc/default/docker",
       "sudo cp /tmp/init.sh /etc/init.d/",
       "sudo chmod +x /etc/init.d/init.sh"
-    ]
-  }, {
-    "type": "shell",
-    "only": ["qemu"],
-    "inline": [
-      "sudo mkdir -p /etc/default/",
-      "sudo cp /tmp/profile /etc/default/docker"
     ]
   }],
 
