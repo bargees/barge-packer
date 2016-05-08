@@ -1,30 +1,13 @@
-TARGETS := virtualbox qemu
+SUBDIRS := virtualbox qemu
 
-all: $(TARGETS)
+all: $(SUBDIRS)
 
-virtualbox: output/barge.iso output/barge.box
-
-qemu: output/barge.qcow2
-
-output/barge.iso output/barge.box: output/% : virtualbox/% | output
-	@install -CSv -m 0644 $< $@
-
-virtualbox/barge.iso virtualbox/barge.box:
-	$(MAKE) -C virtualbox $(@F)
-
-output/barge.qcow2: output/% : qemu/% | output
-	@install -CSv -m 0644 $< $@
-
-qemu/barge.qcow2:
-	$(MAKE) -C qemu $(@F)
-
-output:
-	mkdir -p $@
+$(SUBDIRS):
+	@$(MAKE) -C $@
 
 clean:
-	$(RM) -r output
-	@for name in $(TARGETS); do \
-		$(MAKE) -C $${name} clean; \
+	@for dir in $(SUBDIRS); do \
+		$(MAKE) -C $${dir} clean; \
 	done
 
-.PHONY: all virtualbox qemu clean
+.PHONY: all $(SUBDIRS) clean
