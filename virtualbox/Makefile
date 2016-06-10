@@ -17,7 +17,7 @@ iso: $(ISO_NAME)
 
 $(BOX_NAME): $(ISO_NAME) box/template.json box/vagrantfile.tpl \
 	box/vagrant_plugin_guest_busybox.rb box/mount_virtualbox_shared_folder.rb \
-	../assets/profile ../assets/init.sh
+	../assets/profile ../assets/init.sh box/mount_nfs.rb
 	cd box && \
 		$(PACKER) build template.json
 
