@@ -118,6 +118,7 @@ module VagrantPlugins
             entries = []
             networks.each do |network|
               interfaces.add(network[:interface])
+              network[:device] = "eth#{network[:interface]}"
               entry = TemplateRenderer.render("guests/debian/network_#{network[:type]}",
                                               options: network)
 
