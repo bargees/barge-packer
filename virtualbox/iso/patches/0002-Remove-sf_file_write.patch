@@ -1,0 +1,89 @@
+From 32a69b3b8308b7acecc374eac4939fce5d60137b Mon Sep 17 00:00:00 2001
+From: "A.I" <ailis@paw.zone>
+Date: Fri, 17 Jun 2016 07:44:28 -0700
+Subject: [PATCH 2/2] Remove sf_file_write()
+
+---
+ regops.c | 43 +++----------------------------------------
+ 1 file changed, 3 insertions(+), 40 deletions(-)
+
+diff --git a/regops.c b/regops.c
+index 09cc13c..314b5a9 100644
+--- a/regops.c
++++ b/regops.c
+@@ -107,42 +107,6 @@ sf_file_read(struct kiocb *iocb, struct iov_iter *iov)
+     return generic_file_read_iter(iocb, iov);
+ }
+ 
+-static int sf_need_sync_write(struct file *file, struct inode *inode)
+-{
+-    // >= kernel version 2.6.33
+-    if (IS_SYNC(inode) || file->f_flags & O_DSYNC)
+-    {
+-        return 1;
+-    }
+-    return 0;
+-}
+-
+-static ssize_t
+-sf_file_write(struct kiocb *iocb, struct iov_iter *iov)
+-{
+-    int err;
+-    ssize_t result;
+-    struct file *file = iocb->ki_filp;
+-    struct dentry *dentry = file->f_path.dentry;
+-    struct inode *inode = dentry->d_inode;
+-
+-    err = sf_inode_revalidate(dentry);
+-    if (err)
+-        return err;
+-
+-    result = generic_file_write_iter(iocb, iov);
+-
+-    if (result >= 0 && sf_need_sync_write(file, inode))
+-    {
+-        err = vfs_fsync(file, 0);
+-        if (err < 0)
+-        {
+-            result = err;
+-        }
+-    }
+-    return result;
+-}
+-
+ #else /* KERNEL_VERSION >= 3.16.0 */
+ 
+ /**
+@@ -220,6 +184,8 @@ fail:
+     return err;
+ }
+ 
++#endif /* KERNEL_VERSION >= 3.16.0 */
++
+ /**
+  * Write to a regular file.
+  *
+@@ -320,8 +286,6 @@ fail:
+     return err;
+ }
+ 
+-#endif /* KERNEL_VERSION >= 3.16.0 */
+-
+ static loff_t
+ sf_file_llseek(struct file *file, loff_t offset, int origin)
+ {
+@@ -652,10 +616,9 @@ struct file_operations sf_reg_fops =
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0)
+ #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 1, 0)
+     .read        = new_sync_read,
+-    .write       = new_sync_write,
+ #endif // LINUX_VERSION_CODE < KERNEL_VERSION(4, 1, 0)
+     .read_iter   = sf_file_read,
+-    .write_iter  = sf_file_write,
++    .write       = sf_reg_write,
+ #else
+     .read        = sf_reg_read,
+     .write       = sf_reg_write,
+-- 
+2.5.4 (Apple Git-61)
+
