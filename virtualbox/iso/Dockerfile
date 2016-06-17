@@ -18,7 +18,7 @@ RUN cd linux-${KERNEL_VERSION} && \
     make prepare && make scripts && \
     make headers_install INSTALL_HDR_PATH=${SRCDIR}
 
-ENV VBOX_VERSION 5.0.20
+ENV VBOX_VERSION 5.0.22
 RUN mkdir -p /vboxguest
 COPY vboxguest.iso /vboxguest/
 COPY regops.c.patch /vboxguest/
