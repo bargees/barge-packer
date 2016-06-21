@@ -1,0 +1,28 @@
+From b7108fc13b1081ae03cd9eb081407e373925e32f Mon Sep 17 00:00:00 2001
+From: "A.I" <ailis@paw.zone>
+Date: Mon, 20 Jun 2016 19:04:01 -0700
+Subject: [PATCH 2/2] More buffer to read/write faster
+
+128K = VM_MAX_READAHEAD * 1024
+---
+ regops.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/regops.c b/regops.c
+index 036484f..ee6741b 100644
+--- a/regops.c
++++ b/regops.c
+@@ -29,8 +29,8 @@ static void *alloc_bounce_buffer(size_t *tmp_sizep, PRTCCPHYS physp, size_t
+ 
+     /* try for big first. */
+     tmp_size = RT_ALIGN_Z(xfer_size, PAGE_SIZE);
+-    if (tmp_size > 16U*_1K)
+-        tmp_size = 16U*_1K;
++    if (tmp_size > 128U*_1K)
++        tmp_size = 128U*_1K;
+     tmp = kmalloc(tmp_size, GFP_KERNEL);
+     if (!tmp)
+     {
+-- 
+2.5.4 (Apple Git-61)
+

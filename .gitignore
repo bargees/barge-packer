@@ -11,7 +11,7 @@ virtualbox/iso/*
 !virtualbox/iso/.dockerignore
 !virtualbox/iso/Vagrantfile
 !virtualbox/iso/Dockerfile
-!virtualbox/iso/regops.c.patch
+!virtualbox/iso/patches/
 
 contrib/vagrant/upgrade/index*
 contrib/vagrant/secure/.docker/

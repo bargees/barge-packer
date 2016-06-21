@@ -9,7 +9,8 @@ PACKER  := packer
 VAGRANT := vagrant
 
 EXTERNAL_DEPENDENCIES := iso/linux-$(KERNEL_VERSION).tar.xz iso/vboxguest.iso \
-	iso/bzImage iso/rootfs.tar.xz iso/kernel.config iso/isolinux.cfg
+	iso/bzImage iso/rootfs.tar.xz iso/kernel.config iso/isolinux.cfg \
+	$(shell find iso/patches -type f)
 
 box: $(BOX_NAME)
 

@@ -21,7 +21,7 @@ RUN cd linux-${KERNEL_VERSION} && \
 ENV VBOX_VERSION 5.0.22
 RUN mkdir -p /vboxguest
 COPY vboxguest.iso /vboxguest/
-COPY regops.c.patch /vboxguest/
+COPY patches /vboxguest/patches
 RUN cd /vboxguest && \
     7z x vboxguest.iso -ir'!VBoxLinuxAdditions.run' && \
     rm -f vboxguest.iso && \
@@ -32,7 +32,9 @@ RUN cd /vboxguest && \
     \
     rm -rf amd64/src/vboxguest-${VBOX_VERSION}/vboxvideo && \
     \
-    patch -u amd64/src/vboxguest-${VBOX_VERSION}/vboxsf/regops.c < /vboxguest/regops.c.patch && \
+    for patch in /vboxguest/patches/*.patch; do \
+      patch -p1 -d amd64/src/vboxguest-${VBOX_VERSION}/vboxsf < ${patch}; \
+    done && \
     \
     KERN_DIR=${SRCDIR}/linux-${KERNEL_VERSION} KERN_INCL=${SRCDIR}/include \
       make -C amd64/src/vboxguest-${VBOX_VERSION}
