@@ -9,8 +9,7 @@ PACKER  := packer
 VAGRANT := vagrant
 
 EXTERNAL_DEPENDENCIES := iso/linux-$(KERNEL_VERSION).tar.xz iso/vboxguest.iso \
-	iso/bzImage iso/rootfs.tar.xz iso/kernel.config iso/isolinux.cfg \
-	$(shell find iso/patches -type f)
+	iso/bzImage iso/rootfs.tar.xz iso/kernel.config iso/isolinux.cfg
 
 box: $(BOX_NAME)
 
@@ -22,7 +21,7 @@ $(BOX_NAME): $(ISO_NAME) box/template.json box/vagrantfile.tpl \
 	cd box && \
 		$(PACKER) build template.json
 
-$(ISO_NAME): iso/Dockerfile $(EXTERNAL_DEPENDENCIES)
+$(ISO_NAME): iso/Dockerfile $(EXTERNAL_DEPENDENCIES) $(shell find iso/patches -type f)
 	$(VAGRANT) suspend
 	cd iso && \
 		$(VAGRANT) up --no-provision && \
