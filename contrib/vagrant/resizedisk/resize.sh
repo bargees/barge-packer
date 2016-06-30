@@ -100,7 +100,7 @@ if [ -n "${SIZE}" ] ; then
 
   echo -e "${GREEN}Boot and Re-partitioning...${CLEAR}"
   vagrant up "${NAME}" > /dev/null
-  vagrant ssh -c "sudo umount -l /mnt/sda1; (echo d; echo 1; echo w) | sudo fdisk /dev/sda; (echo n; echo p; echo 1; echo; echo; echo w) | sudo fdisk /dev/sda" "${NAME}" > /dev/null 2>&1
+  vagrant ssh -c "sudo umount -l /dev/sda1; (echo d; echo 1; echo w) | sudo fdisk /dev/sda; (echo n; echo p; echo 1; echo; echo; echo w) | sudo fdisk /dev/sda" "${NAME}" > /dev/null 2>&1
 
   echo -e "${GREEN}Reboot and Resizing the partition...${CLEAR}"
   vagrant reload "${NAME}" > /dev/null
