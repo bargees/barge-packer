@@ -48,6 +48,7 @@ install: $(BOX_NAME)
 boot_test: install
 	$(VAGRANT) destroy -f
 	$(VAGRANT) up --no-provision
+	@$(VAGRANT) ssh-config > .ssh_config
 
 test: boot_test
 	$(VAGRANT) provision
@@ -60,18 +61,18 @@ test: boot_test
 	@echo "-----> nc localhost 8080"
 	@nc localhost 8080
 	@echo "-----> /etc/os-release"
-	@$(VAGRANT) ssh -c "cat /etc/os-release" -- -T
+	@ssh -F .ssh_config barge-test 'bash -lc "cat /etc/os-release"'
 	@echo "-----> hostname"
-	@$(VAGRANT) ssh -c "hostname" -- -T
+	@ssh -F .ssh_config barge-test 'bash -lc "hostname"'
 	@echo "-----> route"
-	@$(VAGRANT) ssh -c "route" -- -T
+	@ssh -F .ssh_config barge-test 'bash -lc "route"'
 	$(VAGRANT) suspend
 
 clean:
 	cd iso && $(VAGRANT) destroy -f
 	$(RM) -r iso/.vagrant
 	$(VAGRANT) destroy -f
-	$(RM) -r .vagrant
+	$(RM) -r .vagrant .ssh_config
 	$(RM) $(EXTERNAL_DEPENDENCIES)
 	$(RM) $(BOX_NAME)
 	$(RM) $(ISO_NAME)
