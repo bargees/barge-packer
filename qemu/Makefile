@@ -1,4 +1,4 @@
-BARGE_VERSION  := 2.1.5
+BARGE_VERSION  := 2.1.6
 
 IMG_NAME := barge.qcow2
 
