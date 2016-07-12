@@ -14,5 +14,10 @@ virtualbox/iso/*
 !virtualbox/iso/Dockerfile
 !virtualbox/iso/patches/
 
+veertu/box/*
+!veertu/box/metadata.json
+!veertu/box/Vagrantfile
+!veertu/vmz/hd0.img
+
 contrib/vagrant/upgrade/index*
 contrib/vagrant/secure/.docker/

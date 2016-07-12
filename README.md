@@ -1,7 +1,8 @@
-# Barge Packer for VirtualBox and QEMU
+# Barge Packer for VirtualBox, QEMU and Veertu
 
 - for VirtualBox: [./virtualbox](./virtualbox)
 - for QEMU: [./qemu](./qemu)
+- for Veertu: [./veertu](./veertu)
 
 The raw Barge images are at https://github.com/bargees/barge-os.
 
