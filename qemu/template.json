@@ -16,7 +16,8 @@
     "headless": true,
     "qemuargs": [
       ["-m", "1024"]
-    ]
+    ],
+    "disk_compression": true
   }],
 
   "provisioners": [{
