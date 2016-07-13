@@ -89,7 +89,7 @@
 				<key>controller</key>
 				<integer>1</integer>
 				<key>file</key>
-				<string>hd0.img</string>
+				<string>barge-data.img</string>
 				<key>id</key>
 				<integer>0</integer>
 				<key>size</key>
