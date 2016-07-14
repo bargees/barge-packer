@@ -34,7 +34,7 @@ Vagrant.configure(2) do |config|
     NET_MASK="255.255.255.0"
     EXPORTS="\"#{PWD}\" -network #{NET_ADDR} -mask #{NET_MASK} -alldirs -mapall=#{UID}:#{GID}"
 
-    config.trigger.before [:up, :resume] do
+    config.trigger.before [:up] do
       info "Add an entry into /etc/exports"
       run "sudo sh -c 'echo #{EXPORTS.dump.dump} >> /etc/exports'"
       run "sudo nfsd restart"
@@ -51,7 +51,7 @@ Vagrant.configure(2) do |config|
       EOT
     end
 
-    config.trigger.after [:destroy, :suspend, :halt] do
+    config.trigger.after [:destroy] do
       info "Remove the entry from /etc/exports"
       run "sudo touch /etc/exports"
       run "sudo sed -E -e '\\\\|^#{EXPORTS}$|d' -i.bak /etc/exports"
