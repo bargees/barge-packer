@@ -52,19 +52,45 @@ module VagrantPlugins
 end
 
 Vagrant.configure(2) do |config|
-  config.vm.define "barge"
-
+  config.vm.define "barge-veertu"
+  config.vm.provider :veertu
   config.vm.box = "ailispaw/barge"
 
-  config.vm.provision :docker do |d|
-    d.pull_images "busybox"
-    d.run "simple-echo",
-      image: "busybox",
-      args: "-p 8080:8080 -v /usr/bin/dumb-init:/dumb-init:ro --entrypoint=/dumb-init",
-      cmd: "nc -p 8080 -l -l -e echo hello world!"
-  end
+  if Vagrant.has_plugin?("vagrant-triggers")
+    PWD=`pwd`.strip
+    UID=`id -u`.strip
+    GID=`id -g`.strip
+    NET_ADDR="192.168.64.0"
+    NET_MASK="255.255.255.0"
+    EXPORTS="\"#{PWD}\" -network #{NET_ADDR} -mask #{NET_MASK} -alldirs -mapall=#{UID}:#{GID}"
 
-  config.vm.network :forwarded_port, guest: 8080, host: 8080
+    config.trigger.before [:up] do
+      info "Add an entry into /etc/exports"
+      run "sudo sh -c 'echo #{EXPORTS.dump.dump} >> /etc/exports'"
+      run "sudo nfsd restart"
+    end
+
+    config.vm.provision :shell, run: "always" do |sh|
+      sh.inline = <<-EOT
+        if ! mountpoint -q '/vagrant'; then
+          mkdir -p '/vagrant'
+          mount -o nolock,vers=3,noatime,actimeo=1 '192.168.64.1:#{PWD}' '/vagrant'
+        fi
+        pkg install bindfs
+        if mountpoint -q '/vagrant' && ! mountpoint -q '#{PWD}'; then
+          mkdir -p '#{PWD}'
+          bindfs --map=#{UID}/bargee:@#{GID}/@bargees '/vagrant' '#{PWD}'
+        fi
+      EOT
+    end
+
+    config.trigger.after [:destroy] do
+      info "Remove the entry from /etc/exports"
+      run "sudo touch /etc/exports"
+      run "sudo sed -E -e '\\\\|^#{EXPORTS}$|d' -i.bak /etc/exports"
+      run "sudo nfsd restart"
+    end
+  end
 end
 ```
 
