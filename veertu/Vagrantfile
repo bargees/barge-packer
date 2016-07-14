@@ -38,6 +38,7 @@ Vagrant.configure(2) do |config|
       info "Add an entry into /etc/exports"
       run "sudo sh -c 'echo #{EXPORTS.dump.dump} >> /etc/exports'"
       run "sudo nfsd restart"
+      run "sudo sh -c '/usr/libexec/bootpd || true'"
     end
 
     config.vm.provision :shell, run: "always" do |sh|
