@@ -8,6 +8,10 @@ module VagrantPlugins
   end
 end
 
+PWD=`pwd`.strip
+UID=`id -u`.strip
+GID=`id -g`.strip
+
 Vagrant.configure(2) do |config|
   config.vm.define "barge-test"
 
@@ -27,9 +31,6 @@ Vagrant.configure(2) do |config|
   end
 
   if Vagrant.has_plugin?("vagrant-triggers")
-    PWD=`pwd`.strip
-    UID=`id -u`.strip
-    GID=`id -g`.strip
     NET_ADDR="192.168.64.0"
     NET_MASK="255.255.255.0"
     EXPORTS="\"#{PWD}\" -network #{NET_ADDR} -mask #{NET_MASK} -alldirs -mapall=#{UID}:#{GID}"
@@ -43,10 +44,9 @@ Vagrant.configure(2) do |config|
 
     config.vm.provision :shell, run: "always" do |sh|
       sh.inline = <<-EOT
-        if ! mountpoint -q '#{PWD}'; then
-          mkdir -p '#{PWD}'
-          mount -o nolock,vers=3,noatime,actimeo=1 '192.168.64.1:#{PWD}' '#{PWD}'
-          /etc/init.d/docker restart
+        if ! mountpoint -q '/vagrant'; then
+          mkdir -p '/vagrant'
+          mount -o nolock,vers=3,noatime,actimeo=1 '192.168.64.1:#{PWD}' '/vagrant'
         fi
       EOT
     end
@@ -57,6 +57,17 @@ Vagrant.configure(2) do |config|
       run "sudo sed -E -e '\\\\|^#{EXPORTS}$|d' -i.bak /etc/exports"
       run "sudo nfsd restart"
     end
+  end
+
+  config.vm.provision :shell, run: "always" do |sh|
+    sh.inline = <<-EOT
+      pkg install bindfs
+      if mountpoint -q '/vagrant' && ! mountpoint -q '#{PWD}'; then
+        mkdir -p '#{PWD}'
+        bindfs --map=#{UID}/bargee:@#{GID}/@bargees '/vagrant' '#{PWD}'
+        /etc/init.d/docker restart
+      fi
+    EOT
   end
 
   config.vm.provision :docker do |docker|
