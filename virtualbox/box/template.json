@@ -69,6 +69,7 @@
     "include": [
       "../barge.iso",
       "vagrant_plugin_guest_busybox.rb",
+      "mount_virtualbox_shared_folder.rb",
       "mount_nfs.rb"
     ],
     "vagrantfile_template": "vagrantfile.tpl",

@@ -1,4 +1,7 @@
 require_relative "vagrant_plugin_guest_busybox.rb"
+if (Vagrant::Errors::VirtualBoxMountFailed rescue false) # Vagrant >= 1.8.5
+  require_relative "mount_virtualbox_shared_folder.rb"
+end
 if (Vagrant::Errors::LinuxNFSMountFailed rescue false) # Vagrant <= 1.8.4
   require_relative "mount_nfs.rb"
 end

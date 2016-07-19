@@ -157,13 +157,28 @@ module VagrantPlugins
 end
 
 # Skip checking nfs client, because mount supports nfs.
-require Vagrant.source_root.join("plugins/guests/linux/cap/nfs_client.rb")
-module VagrantPlugins
-  module GuestLinux
-    module Cap
-      class NFSClient
-        def self.nfs_client_installed(machine)
-          true
+begin  # Vagrant <= v1.8.4
+  require Vagrant.source_root.join("plugins/guests/linux/cap/nfs_client.rb")
+  module VagrantPlugins
+    module GuestLinux
+      module Cap
+        class NFSClient
+          def self.nfs_client_installed(machine)
+            true
+          end
+        end
+      end
+    end
+  end
+rescue # Vagrant >= v1.8.5
+  require Vagrant.source_root.join("plugins/guests/linux/cap/nfs.rb")
+  module VagrantPlugins
+    module GuestLinux
+      module Cap
+        class NFS
+          def self.nfs_client_installed(machine)
+            true
+          end
         end
       end
     end
