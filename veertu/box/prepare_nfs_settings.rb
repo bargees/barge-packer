@@ -1,5 +1,23 @@
 vagrant_veertu_path = VagrantPlugins::ProviderVeertu.source_root.join("lib/vagrant-veertu/")
 
+require vagrant_veertu_path.join("driver/version_5_0.rb")
+module VagrantPlugins
+  module ProviderVeertu
+    module Driver
+      class Version_5_0 < Base
+        def read_vms
+          results = {}
+          vms = get_vm_list()
+          vms.each do |vm|
+            results[vm['name']] = vm['id']
+          end
+          results
+        end
+      end
+    end
+  end
+end
+
 require vagrant_veertu_path.join("action.rb")
 module VagrantPlugins
   module ProviderVeertu
