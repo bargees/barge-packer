@@ -22,40 +22,12 @@ Vagrant.configure(2) do |config|
   # config.vm.network :private_network, ip: "192.168.33.10"
 
   # config.vm.synced_folder ".", "/vagrant"
-  # config.vm.synced_folder ".", "/vagrant", type: "nfs",
-  #   mount_options: ["nolock", "vers=3", "noatime", "actimeo=1"]
+  config.vm.synced_folder ".", "/vagrant", type: "nfs",
+    mount_options: ["nolock", "vers=3", "noatime", "actimeo=1"]
 
   config.vm.provider :veertu do |v|
     v.name = "barge-test"
     v.gui = true
-  end
-
-  if Vagrant.has_plugin?("vagrant-triggers")
-    NET_ADDR="192.168.64.0"
-    NET_MASK="255.255.255.0"
-    EXPORTS="\"#{PWD}\" -network #{NET_ADDR} -mask #{NET_MASK} -alldirs -mapall=#{UID}:#{GID}"
-
-    config.trigger.before [:up] do
-      info "Add an entry into /etc/exports"
-      run "sudo sh -c 'echo #{EXPORTS.dump.dump} >> /etc/exports'"
-      run "sudo nfsd restart"
-    end
-
-    config.vm.provision :shell, run: "always" do |sh|
-      sh.inline = <<-EOT
-        if ! mountpoint -q '/vagrant'; then
-          mkdir -p '/vagrant'
-          mount -o nolock,vers=3,noatime,actimeo=1 '192.168.64.1:#{PWD}' '/vagrant'
-        fi
-      EOT
-    end
-
-    config.trigger.after [:destroy] do
-      info "Remove the entry from /etc/exports"
-      run "sudo touch /etc/exports"
-      run "sudo sed -E -e '\\\\|^#{EXPORTS}$|d' -i.bak /etc/exports"
-      run "sudo nfsd restart"
-    end
   end
 
   config.vm.provision :shell, run: "always" do |sh|

@@ -16,7 +16,7 @@ vmz: $(VMZ_NAME)
 hdd: $(HDD_NAME)
 
 $(BOX_NAME): $(VMZ_NAME) box/metadata.json box/Vagrantfile \
-	box/vagrant_plugin_guest_busybox.rb box/mount_nfs.rb
+	box/vagrant_plugin_guest_busybox.rb box/mount_nfs.rb box/prepare_nfs_settings.rb
 	cd box && tar zcf ../$@ $(^F)
 
 $(VMZ_NAME): $(HDD_NAME) vmz/barge.iso vmz/settings.plist

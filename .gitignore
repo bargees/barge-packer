@@ -17,6 +17,7 @@ virtualbox/iso/*
 veertu/box/*
 !veertu/box/metadata.json
 !veertu/box/Vagrantfile
+!veertu/box/prepare_nfs_settings.rb
 
 contrib/vagrant/upgrade/index*
 contrib/vagrant/secure/.docker/

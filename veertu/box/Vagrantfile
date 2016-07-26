@@ -2,6 +2,7 @@ require_relative "vagrant_plugin_guest_busybox.rb"
 if (Vagrant::Errors::LinuxNFSMountFailed rescue false) # Vagrant <= 1.8.4
   require_relative "mount_nfs.rb"
 end
+require_relative "prepare_nfs_settings.rb"
 
 Vagrant.configure("2") do |config|
   config.ssh.username = "bargee"
