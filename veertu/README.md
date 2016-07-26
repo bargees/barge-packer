@@ -58,7 +58,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ailispaw/barge"
 
   config.vm.synced_folder ".", "/vagrant", type: "nfs",
-    mount_options: ["nolock", "vers=3", "noatime", "actimeo=1"]
+    mount_options: ["nolock", "vers=3", "udp", "noatime", "actimeo=1"]
 
   config.vm.provision :docker do |docker|
     docker.pull_images "busybox"
