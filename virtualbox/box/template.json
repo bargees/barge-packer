@@ -17,6 +17,7 @@
     "vboxmanage": [
       ["modifyvm", "{{.Name}}", "--memory", "1024", "--rtcuseutc", "on", "--pae", "off"],
       ["modifyvm", "{{.Name}}", "--boot1", "dvd", "--boot2", "disk"],
+      ["modifyvm", "{{.Name}}", "--vrde", "off", "--vrdeport", "default", "--vrdeaddress", ""],
       ["modifyvm", "{{.Name}}", "--nictype1", "virtio"],
       ["modifyvm", "{{.Name}}", "--nictype2", "virtio"],
       ["modifyvm", "{{.Name}}", "--nictype3", "virtio"],
