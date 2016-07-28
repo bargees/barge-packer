@@ -1,0 +1,51 @@
+{
+  "builders": [{
+    "type": "qemu",
+    "vm_name": "barge-data.img",
+    "iso_url": "../vmz/barge.iso",
+    "iso_checksum_type": "none",
+    "boot_wait": "5s",
+    "ssh_username": "bargee",
+    "ssh_password": "bargee",
+    "shutdown_command": "sudo shutdown",
+    "disk_size": 20480,
+    "format": "qcow2",
+    "accelerator": "tcg",
+    "net_device": "virtio-net",
+    "disk_interface": "virtio",
+    "headless": true,
+    "qemuargs": [
+      ["-m", "1024"]
+    ],
+    "disk_compression": true
+  }],
+
+  "provisioners": [{
+    "type": "shell",
+    "inline": [
+      "(echo n; echo p; echo 2; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/vda",
+      "(echo t; echo 82; echo w;) | sudo fdisk /dev/vda",
+      "sudo mkswap -L BARGE-SWAP /dev/vda2",
+      "(echo n; echo p; echo 1; echo ; echo ; echo w;) | sudo fdisk /dev/vda",
+      "sudo mkfs.ext4 -b 4096 -i 4096 -F -L BARGE-DATA /dev/vda1",
+
+      "sudo mkdir -p /mnt/vda1",
+      "sudo mount -t ext4 /dev/vda1 /mnt/vda1",
+
+      "sudo mkdir -p /mnt/vda1/etc",
+      "sudo mkdir -p /mnt/vda1/work/etc",
+      "sudo mount -t overlay overlay -o lowerdir=/etc,upperdir=/mnt/vda1/etc,workdir=/mnt/vda1/work/etc /etc"
+    ]
+  }, {
+    "type": "file",
+    "source": "../../assets/",
+    "destination": "/tmp"
+  },{
+    "type": "shell",
+    "inline": [
+      "sudo mkdir -p /etc/default/",
+      "sudo cp /tmp/profile /etc/default/docker",
+      "sudo cp /tmp/init.sh /etc/init.d/init.sh"
+    ]
+  }]
+}
