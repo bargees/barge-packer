@@ -26,9 +26,9 @@ $ make
 
 ## Requirements to run
 
-- [Veertu](https://veertu.com/)
 - [Vagrant](https://www.vagrantup.com/)
-- [vagrant-veertu](https://rubygems.org/gems/vagrant-veertu/)
+- [Veertu](https://veertu.com/) v1.1.2
+- [vagrant-veertu](https://rubygems.org/gems/vagrant-veertu/) v0.0.12
 
 ## Vagrant up
 
