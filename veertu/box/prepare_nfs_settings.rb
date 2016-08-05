@@ -36,7 +36,6 @@ module VagrantPlugins
           b.use SyncedFolderCleanup
           b.use SyncedFolders
           b.use PrepareNFSSettings
-          b.use ClearNetworkInterfaces
 
           b.use Network
           b.use NetworkFixIPv6
