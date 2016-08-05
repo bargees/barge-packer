@@ -62,16 +62,11 @@ module VagrantPlugins
           host_ip    = nil
           machine_ip = nil
 
-          command = "ip route get 8.8.8.8 | awk 'NR==1 {print $3}'"
+          command = "ip route get 8.8.8.8 | awk 'NR==1 {print $3, $7}'"
           @machine.communicate.sudo command do |_, result|
-            host_ip = result.gsub("\n", "")
+            host_ip, machine_ip = result.split
           end
           raise Vagrant::Errors::NFSNoHostIP if !host_ip
-
-          command = "ifconfig eth0 | awk '/inet addr/{print substr($2,6)}'"
-          @machine.communicate.sudo command do |_, result|
-            machine_ip = result.gsub("\n", "")
-          end
           raise Vagrant::Errors::NFSNoGuestIP if !machine_ip
 
           env[:nfs_host_ip]    = host_ip
