@@ -1,4 +1,4 @@
-FROM ailispaw/ubuntu-essential:14.04
+FROM ailispaw/ubuntu-essential:14.04-nodoc
 
 RUN apt-get -q update && \
     apt-get -q -y install --no-install-recommends bc build-essential \
