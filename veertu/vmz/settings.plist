@@ -14,7 +14,7 @@
 		<key>hdpi</key>
 		<integer>0</integer>
 		<key>headless</key>
-		<integer>0</integer>
+		<true/>
 		<key>port_forwardings</key>
 		<dict/>
 		<key>remap_cmd</key>
@@ -34,12 +34,7 @@
 	<key>hw</key>
 	<dict>
 		<key>audio</key>
-		<dict>
-			<key>id</key>
-			<integer>0</integer>
-			<key>type</key>
-			<string>usbaudio</string>
-		</dict>
+		<dict/>
 		<key>cdrom</key>
 		<array>
 			<dict>
