@@ -1,15 +1,3 @@
-# Keep the old method for compatibility, bacuase it has been changed at Vagrant v1.8.7.
-require Vagrant.source_root.join("plugins/guests/linux/guest.rb")
-module VagrantPlugins
-  module GuestLinux
-    class Guest < Vagrant.plugin("2", :guest)
-      def detect?(machine)
-        machine.communicate.test("uname -s | grep 'Linux'")
-      end
-    end
-  end
-end
-
 # Add change_host_name guest capability
 module VagrantPlugins
   module GuestLinux

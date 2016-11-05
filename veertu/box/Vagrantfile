@@ -5,6 +5,8 @@ end
 require_relative "prepare_nfs_settings.rb"
 
 Vagrant.configure("2") do |config|
+  config.vm.guest = "linux"
+
   config.ssh.username = "bargee"
 
   # Forward the Docker port

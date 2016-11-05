@@ -7,6 +7,8 @@ if (Vagrant::Errors::LinuxNFSMountFailed rescue false) # Vagrant <= 1.8.4
 end
 
 Vagrant.configure("2") do |config|
+  config.vm.guest = "linux"
+
   config.ssh.username = "bargee"
 
   # Forward the Docker port
