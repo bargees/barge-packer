@@ -170,7 +170,7 @@ begin  # Vagrant <= v1.8.4
       end
     end
   end
-rescue # Vagrant >= v1.8.5
+rescue LoadError # Vagrant >= v1.8.5
   require Vagrant.source_root.join("plugins/guests/linux/cap/nfs.rb")
   module VagrantPlugins
     module GuestLinux
