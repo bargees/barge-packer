@@ -8,7 +8,7 @@ RUN apt-get -q update && \
 ENV SRCDIR /usr/src
 WORKDIR ${SRCDIR}
 
-ENV KERNEL_VERSION 4.4.38
+ENV KERNEL_VERSION 4.4.39
 COPY linux-${KERNEL_VERSION}.tar.xz ${SRCDIR}/
 RUN tar xJf linux-${KERNEL_VERSION}.tar.xz
 
