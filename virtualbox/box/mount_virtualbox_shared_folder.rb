@@ -36,7 +36,7 @@ module VagrantPlugins
           mount_options = options.fetch(:mount_options, [])
           mount_options += ["uid=#{mount_uid}", "gid=#{mount_gid}"]
           mount_options = mount_options.join(',')
-          mount_command = "mount -t vboxsf -o #{mount_options} #{name} #{guest_path}"
+          mount_command = "mount.vboxsf -o #{mount_options} #{name} #{guest_path}"
 
           # Create the guest path if it doesn't exist
           machine.communicate.sudo("mkdir -p #{guest_path}")
