@@ -1,4 +1,4 @@
-From ce2296ed9aa1dcb3fe38888e01b7b51108574476 Mon Sep 17 00:00:00 2001
+From e50ffe2f1c4bdf79b66430859dcecc639660c1eb Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Mon, 20 Jun 2016 19:04:01 -0700
 Subject: [PATCH 2/2] More buffer to read/write faster
@@ -9,7 +9,7 @@ Subject: [PATCH 2/2] More buffer to read/write faster
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/regops.c b/regops.c
-index e271aa7..33364ec 100644
+index 967410d..7a4c442 100644
 --- a/regops.c
 +++ b/regops.c
 @@ -29,8 +29,8 @@ static void *alloc_bounce_buffer(size_t *tmp_sizep, PRTCCPHYS physp, size_t
@@ -24,5 +24,5 @@ index e271aa7..33364ec 100644
      if (!tmp)
      {
 -- 
-2.5.4 (Apple Git-61)
+2.10.1
 

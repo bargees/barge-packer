@@ -1,4 +1,4 @@
-From 16537cf9485554af63d9d5a94d235b6d33ecda0e Mon Sep 17 00:00:00 2001
+From 7548fc787227a1d2a4037ed38f8765b91471415e Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Mon, 20 Jun 2016 18:59:52 -0700
 Subject: [PATCH 1/2] Add a patch for regops.c
@@ -9,10 +9,10 @@ Subject: [PATCH 1/2] Add a patch for regops.c
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/regops.c b/regops.c
-index 62bef1b..e271aa7 100644
+index ec4e155..967410d 100644
 --- a/regops.c
 +++ b/regops.c
-@@ -556,6 +556,14 @@ static int sf_reg_mmap(struct file *file, struct vm_area_struct *vma)
+@@ -561,6 +561,14 @@ static int sf_reg_mmap(struct file *file, struct vm_area_struct *vma)
      return 0;
  }
  
@@ -27,7 +27,7 @@ index 62bef1b..e271aa7 100644
  struct file_operations sf_reg_fops =
  {
      .read        = sf_reg_read,
-@@ -565,7 +573,7 @@ struct file_operations sf_reg_fops =
+@@ -570,7 +578,7 @@ struct file_operations sf_reg_fops =
      .mmap        = sf_reg_mmap,
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 0)
  # if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
@@ -37,5 +37,5 @@ index 62bef1b..e271aa7 100644
      .sendfile    = generic_file_sendfile,
  # endif
 -- 
-2.5.4 (Apple Git-61)
+2.10.1
 
