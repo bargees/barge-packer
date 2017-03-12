@@ -20,7 +20,7 @@ Note) Pay attention to **exposing the port 2375 without TLS**, as you see the ab
 
 ## Requirements to build
 
-- [VirtualBox](https://www.virtualbox.org/)
+- [VirtualBox](https://www.virtualbox.org/) >= v5.1.16
 - [Vagrant](https://www.vagrantup.com/)
 - [Packer](https://packer.io/)
 

@@ -16,6 +16,7 @@
     "hard_drive_interface": "sata",
     "vboxmanage": [
       ["modifyvm", "{{.Name}}", "--memory", "1024", "--rtcuseutc", "on", "--pae", "off"],
+      ["modifyvm", "{{.Name}}", "--x2apic", "off", "--audio", "none"],
       ["modifyvm", "{{.Name}}", "--boot1", "dvd", "--boot2", "disk"],
       ["modifyvm", "{{.Name}}", "--vrde", "off", "--vrdeport", "default", "--vrdeaddress", ""],
       ["modifyvm", "{{.Name}}", "--nictype1", "virtio"],
