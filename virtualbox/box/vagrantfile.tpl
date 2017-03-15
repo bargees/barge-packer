@@ -1,3 +1,21 @@
+@ui = Vagrant::UI::Colored.new
+require Vagrant.source_root.join("plugins/providers/virtualbox/driver/meta.rb")
+meta = VagrantPlugins::ProviderVirtualBox::Driver::Meta.new
+if Gem::Version.new('5.1') > Gem::Version.new(meta.version)
+  @ui.warn "Now Barge box supports VirtualBox v5.1."
+  if Gem::Version.new('5.0.32') > Gem::Version.new(meta.version)
+    @ui.warn "To use the Barge box on VirtualBox properly,"
+    @ui.warn "you must upgrade VirtualBox(v#{meta.version}) to v5.0.32/v5.1.6 or later."
+    abort
+  else
+    @ui.warn "You are encouraged to upgrade VirtualBox(v#{meta.version}) to v5.1.6 or later."
+  end
+elsif Gem::Version.new('5.1.6') > Gem::Version.new(meta.version)
+  @ui.warn "To use the Barge box on VirtualBox properly,"
+  @ui.warn "you must upgrade VirtualBox(v#{meta.version}) to v5.1.6 or later."
+  abort
+end
+
 require_relative "vagrant_plugin_guest_busybox.rb"
 if (Vagrant::Errors::VirtualBoxMountFailed rescue false) # Vagrant >= 1.8.5
   require_relative "mount_virtualbox_shared_folder.rb"
