@@ -2,8 +2,8 @@ BARGE_VERSION  := 2.4.1
 KERNEL_VERSION := 4.9.15
 VBOX_VERSION   := 5.1.18
 
-BOX_NAME := barge.box
-ISO_NAME := barge.iso
+BOX_NAME := barge-vbox.box
+ISO_NAME := barge-vbox.iso
 
 PACKER  := packer
 VAGRANT := vagrant
@@ -35,7 +35,7 @@ iso/linux-$(KERNEL_VERSION).tar.xz:
 iso/vboxguest.iso:
 	curl -L http://download.virtualbox.org/virtualbox/$(VBOX_VERSION)/VBoxGuestAdditions_$(VBOX_VERSION).iso -o $@
 
-iso/bzImage iso/rootfs.tar.xz box/barge.iso box/barge.img:
+iso/bzImage iso/rootfs.tar.xz:
 	curl -L https://github.com/bargees/barge-os/releases/download/$(BARGE_VERSION)/$(@F) -o $@
 
 iso/kernel.config iso/isolinux.cfg:

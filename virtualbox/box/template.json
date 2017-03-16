@@ -4,7 +4,7 @@
     "type": "virtualbox-iso",
     "vm_name": "barge-packer",
     "iso_interface": "sata",
-    "iso_url": "../barge.iso",
+    "iso_url": "../barge-vbox.iso",
     "iso_checksum_type": "none",
     "boot_wait": "5s",
     "ssh_username": "bargee",
@@ -69,12 +69,12 @@
     "type": "vagrant",
     "only": ["virtualbox"],
     "include": [
-      "../barge.iso",
+      "../barge-vbox.iso",
       "vagrant_plugin_guest_busybox.rb",
       "mount_virtualbox_shared_folder.rb",
       "mount_nfs.rb"
     ],
     "vagrantfile_template": "vagrantfile.tpl",
-    "output": "../barge.box"
+    "output": "../barge-vbox.box"
   }]
 }

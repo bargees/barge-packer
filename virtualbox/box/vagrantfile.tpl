@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
       "--port", "1",
       "--device", "0",
       "--type", "dvddrive",
-      "--medium", File.expand_path("../barge.iso", __FILE__),
+      "--medium", File.expand_path("../barge-vbox.iso", __FILE__),
     ]
   end
 end

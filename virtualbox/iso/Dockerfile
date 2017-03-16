@@ -73,6 +73,6 @@ RUN cd ${ISO} && \
       -no-emul-boot -boot-load-size 4 -boot-info-table \
       -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat \
       -isohybrid-mbr /usr/lib/syslinux/isohdpfx.bin \
-      -no-pad -o /barge.iso $(pwd)
+      -no-pad -o /barge-vbox.iso $(pwd)
 
-CMD ["cat", "/barge.iso"]
+CMD ["cat", "/barge-vbox.iso"]
