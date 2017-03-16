@@ -17,11 +17,12 @@ iso: $(ISO_NAME)
 
 $(BOX_NAME): $(ISO_NAME) box/template.json box/vagrantfile.tpl \
 	box/vagrant_plugin_guest_busybox.rb box/mount_virtualbox_shared_folder.rb box/mount_nfs.rb \
-	../assets/profile ../assets/init.sh ./assets/vbox.sh
+	../assets/profile ../assets/init.sh
 	cd box && \
 		$(PACKER) build template.json
 
-$(ISO_NAME): iso/Dockerfile $(EXTERNAL_DEPENDENCIES) $(shell find iso/patches -type f)
+$(ISO_NAME): iso/Dockerfile $(EXTERNAL_DEPENDENCIES) $(shell find iso/patches -type f) \
+	iso/S10vbox
 	$(VAGRANT) suspend
 	cd iso && \
 		$(VAGRANT) up --no-provision && \

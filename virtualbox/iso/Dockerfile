@@ -51,6 +51,8 @@ RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
       root/lib/modules/${KERNEL_VERSION}-barge/vboxsf.ko && \
     depmod -a -b ${SRCDIR}/root ${KERNEL_VERSION}-barge
 
+COPY S10vbox ${SRCDIR}/root/etc/init.d/
+
 ENV ISO /iso
 
 RUN mkdir -p ${ISO}/boot && \

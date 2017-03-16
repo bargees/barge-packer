@@ -13,6 +13,7 @@ virtualbox/iso/*
 !virtualbox/iso/Vagrantfile
 !virtualbox/iso/Dockerfile
 !virtualbox/iso/patches/
+!virtualbox/iso/S10vbox
 
 veertu/box/*
 !veertu/box/metadata.json

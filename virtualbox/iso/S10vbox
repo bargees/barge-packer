@@ -1,0 +1,24 @@
+#!/bin/sh
+
+case "$1" in
+  start)
+    # Load the vbox modules
+    if modprobe vboxguest &>/dev/null && modprobe vboxsf &>/dev/null; then
+      # For timesync
+      /sbin/VBoxService --timesync-set-start --timesync-set-threshold 10000 --disable-automount
+    fi
+    ;;
+  stop)
+    echo -n "Stopping VBoxService... "
+    killall VBoxService &>/dev/null
+    [ $? -eq 0 ] && echo "OK" || echo "FAIL"
+    ;;
+  restart)
+    "$0" stop
+    sleep 1
+    "$0" start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    ;;
+esac
