@@ -1,0 +1,25 @@
+#!/bin/sh
+
+#!/bin/sh
+
+case "$1" in
+  start)
+    # Run Hyper-V KVP Daemon
+    if modprobe hv_utils &>/dev/null; then
+      /usr/sbin/hv_kvp_daemon
+    fi
+    ;;
+  stop)
+    echo -n "Stopping VBoxService... "
+    killall VBoxService
+    [ $? -eq 0 ] && echo "OK" || echo "FAIL"
+    ;;
+  restart)
+    "$0" stop
+    sleep 1
+    "$0" start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    ;;
+esac
