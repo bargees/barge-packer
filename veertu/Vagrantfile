@@ -9,11 +9,11 @@ module VagrantPlugins
 end
 
 Vagrant.configure(2) do |config|
-  config.vm.define "barge-test"
+  config.vm.define "barge-veertu-test"
 
   config.vm.box = "barge"
 
-  config.vm.hostname = "barge-test.example.com"
+  config.vm.hostname = "barge-veertu-test.example.com"
 
   # config.vm.network :private_network, ip: "192.168.33.10"
 
@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
     mount_options: ["nolock", "vers=3", "udp", "noatime", "actimeo=1"]
 
   config.vm.provider :veertu do |v|
-    v.name = "barge-test"
+    v.name = "barge-veertu-test"
     v.gui = true
   end
 

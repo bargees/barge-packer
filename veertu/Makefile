@@ -54,11 +54,11 @@ test: boot_test
 	@echo "-----> nc localhost 8080"
 	@nc localhost 8080
 	@echo "-----> /etc/os-release"
-	@ssh -F .ssh_config barge-test 'bash -lc "cat /etc/os-release"'
+	@ssh -F .ssh_config barge-veertu-test 'bash -lc "cat /etc/os-release"'
 	@echo "-----> hostname"
-	@ssh -F .ssh_config barge-test 'bash -lc "hostname"'
+	@ssh -F .ssh_config barge-veertu-test 'bash -lc "hostname"'
 	@echo "-----> route"
-	@ssh -F .ssh_config barge-test 'bash -lc "route"'
+	@ssh -F .ssh_config barge-veertu-test 'bash -lc "route"'
 	$(VAGRANT) suspend
 
 clean:
