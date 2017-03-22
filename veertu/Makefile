@@ -1,4 +1,4 @@
-BARGE_VERSION := 2.4.1
+BARGE_VERSION := 2.4.2
 
 BOX_NAME := barge-veertu.box
 VMZ_NAME := box/box.vmz
