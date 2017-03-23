@@ -67,7 +67,8 @@
       "../barge-vbox.iso",
       "vagrant_plugin_guest_busybox.rb",
       "mount_virtualbox_shared_folder.rb",
-      "mount_nfs.rb"
+      "mount_nfs.rb",
+      "network_dhcp.erb"
     ],
     "vagrantfile_template": "vagrantfile.tpl",
     "output": "../barge-vbox.box"

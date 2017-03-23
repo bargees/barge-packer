@@ -7,7 +7,8 @@ HDD_NAME := vmz/barge-data.img
 PACKER  := packer
 VAGRANT := vagrant
 
-EXTERNAL_DEPENDENCIES := vmz/barge.iso box/vagrant_plugin_guest_busybox.rb box/mount_nfs.rb
+EXTERNAL_DEPENDENCIES := vmz/barge.iso box/vagrant_plugin_guest_busybox.rb box/mount_nfs.rb \
+	box/network_dhcp.erb
 
 box: $(BOX_NAME)
 
@@ -16,7 +17,8 @@ vmz: $(VMZ_NAME)
 hdd: $(HDD_NAME)
 
 $(BOX_NAME): $(VMZ_NAME) box/metadata.json box/Vagrantfile \
-	box/vagrant_plugin_guest_busybox.rb box/mount_nfs.rb box/prepare_nfs_settings.rb
+	box/vagrant_plugin_guest_busybox.rb box/mount_nfs.rb box/prepare_nfs_settings.rb \
+	box/network_dhcp.erb
 	cd box && tar zcf ../$@ $(^F)
 
 $(VMZ_NAME): $(HDD_NAME) vmz/barge.iso vmz/settings.plist
@@ -31,7 +33,7 @@ $(HDD_NAME): vmz/barge.iso ../assets/profile ../assets/init.sh
 vmz/barge.iso:
 	curl -L https://github.com/bargees/barge-os/releases/download/$(BARGE_VERSION)/$(@F) -o $@
 
-box/vagrant_plugin_guest_busybox.rb box/mount_nfs.rb:
+box/vagrant_plugin_guest_busybox.rb box/mount_nfs.rb box/network_dhcp.erb:
 	cp ../virtualbox/box/$(@F) $@
 
 # To test

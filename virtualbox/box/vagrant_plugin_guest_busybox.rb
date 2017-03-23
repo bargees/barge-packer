@@ -113,9 +113,16 @@ module VagrantPlugins
           networks.each do |network|
             network[:device] = "eth#{network[:interface]}"
 
-            entry = TemplateRenderer.render("guests/debian/network_#{network[:type]}",
-              options: network,
-            )
+            if network[:type] == :dhcp
+              entry = TemplateRenderer.render("network_#{network[:type]}",
+                template_root: __dir__,
+                options: network,
+              )
+            else
+              entry = TemplateRenderer.render("guests/debian/network_#{network[:type]}",
+                options: network,
+              )
+            end
             entries << entry
           end
 
