@@ -19,6 +19,7 @@ module VagrantPlugins
 
           mount_options = options.fetch(:mount_options, [])
           joined_mount_options = mount_options.join(',')
+          mount_options = joined_mount_options.split(',')
 
           if match = joined_mount_options.match(/,?uid=(?<option_id>\d+),?/)
             mount_uid = match["option_id"]
@@ -46,8 +47,8 @@ module VagrantPlugins
             mount_options += ["gid=#{mount_gid}"]
           end
 
-          mount_options = mount_options.join(',')
-          mount_command = "mount.vboxsf -o #{mount_options} #{name} #{guest_path}"
+          joined_mount_options = mount_options.join(',')
+          mount_command = "mount.vboxsf -o #{joined_mount_options} #{name} #{guest_path}"
 
           # Create the guest path if it doesn't exist
           machine.communicate.sudo("mkdir -p #{guest_path}")
@@ -66,7 +67,7 @@ module VagrantPlugins
 
           # Chown the directory to the proper user. We skip this if the
           # mount options contained a readonly flag, because it won't work.
-          if !options[:mount_options] || !options[:mount_options].include?("ro")
+          unless mount_options.include?("ro")
             chown_command = "chown #{mount_uid}:#{mount_gid} #{guest_path}"
             machine.communicate.sudo(chown_command)
           end
