@@ -2,6 +2,10 @@
 
 case "$1" in
   start)
+    if pidof VBoxService &>/dev/null; then
+      echo 'VBoxService is already running' >&2
+      exit 1
+    fi
     # Load the vbox modules
     if modprobe vboxguest &>/dev/null && modprobe vboxsf &>/dev/null; then
       # For timesync
@@ -9,6 +13,10 @@ case "$1" in
     fi
     ;;
   stop)
+    if ! pidof VBoxService &>/dev/null; then
+      echo 'VBoxService is not running' >&2
+      exit 1
+    fi
     echo -n "Stopping VBoxService... "
     killall VBoxService &>/dev/null
     [ $? -eq 0 ] && echo "OK" || echo "FAIL"
