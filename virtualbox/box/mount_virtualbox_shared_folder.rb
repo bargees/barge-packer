@@ -17,24 +17,35 @@ module VagrantPlugins
 
           @@logger.debug("Mounting #{name} (#{options[:hostpath]} to #{guestpath})")
 
-          if options[:owner].to_i.to_s == options[:owner].to_s
-            mount_uid = options[:owner]
-          else
-            mount_uid = "`id -u #{options[:owner]}`"
-          end
-
-          if options[:group].to_i.to_s == options[:group].to_s
-            mount_gid = options[:group]
-          else
-            if options[:owner] == options[:group]
-              mount_gid = "`id -g #{options[:owner]}`"
-            else
-              mount_gid = "`grep -w ^#{options[:group]} /etc/group | cut -d: -f3`"
-            end
-          end
-
           mount_options = options.fetch(:mount_options, [])
-          mount_options += ["uid=#{mount_uid}", "gid=#{mount_gid}"]
+          joined_mount_options = mount_options.join(',')
+
+          if match = joined_mount_options.match(/,?uid=(?<option_id>\d+),?/)
+            mount_uid = match["option_id"]
+          else
+            if options[:owner].to_i.to_s == options[:owner].to_s
+              mount_uid = options[:owner]
+            else
+              mount_uid = "`id -u #{options[:owner]}`"
+            end
+            mount_options += ["uid=#{mount_uid}"]
+          end
+
+          if match = joined_mount_options.match(/,?gid=(?<option_id>\d+),?/)
+            mount_gid = match["option_id"]
+          else
+            if options[:group].to_i.to_s == options[:group].to_s
+              mount_gid = options[:group]
+            else
+              if options[:owner] == options[:group]
+                mount_gid = "`id -g #{options[:owner]}`"
+              else
+                mount_gid = "`grep -w ^#{options[:group]} /etc/group | cut -d: -f3`"
+              end
+            end
+            mount_options += ["gid=#{mount_gid}"]
+          end
+
           mount_options = mount_options.join(',')
           mount_command = "mount.vboxsf -o #{mount_options} #{name} #{guest_path}"
 
