@@ -53,20 +53,20 @@ mkdir -p "${CERT_DIR}"
 chmod 700 "${CERT_DIR}"
 if [ ! -f "${CACERT}" ] || [ ! -f "${CAKEY}" ]; then
   echo "Generate CA cert"
-  /opt/bin/generate_cert --cert="${CACERT}" --key="${CAKEY}" --org="${CAORG}"
+  /opt/bin/generate_cert --cert="${CACERT}" --key="${CAKEY}" --org="${CAORG}" --overwrite
   rm -f "${SERVERCERT}" "${SERVERKEY}" "${CERT}" "${KEY}" "${CERT_DIR}/hostnames"
 fi
 
 CERTS_EXISTFOR=$(cat "${CERT_DIR}/hostnames" 2>/dev/null)
 if [ "${CERT_HOSTNAMES}" != "${CERTS_EXISTFOR}" ]; then
   echo "Generate server cert"
-  /opt/bin/generate_cert --host="${CERT_HOSTNAMES}" --ca="${CACERT}" --ca-key="${CAKEY}" --cert="${SERVERCERT}" --key="${SERVERKEY}" --org="${SERVERORG}"
+  /opt/bin/generate_cert --host="${CERT_HOSTNAMES}" --ca="${CACERT}" --ca-key="${CAKEY}" --cert="${SERVERCERT}" --key="${SERVERKEY}" --org="${SERVERORG}" --overwrite
   echo "${CERT_HOSTNAMES}" > "${CERT_DIR}/hostnames"
 fi
 
 if [ ! -f "${CERT}" ] || [ ! -f "${KEY}" ]; then
   echo "Generating client cert"
-  /opt/bin/generate_cert --ca="${CACERT}" --ca-key="${CAKEY}" --cert="${CERT}" --key="${KEY}" --org="${ORG}"
+  /opt/bin/generate_cert --ca="${CACERT}" --ca-key="${CAKEY}" --cert="${CERT}" --key="${KEY}" --org="${ORG}" --overwrite
 fi
 
 DOCKER_HOST="-H unix:// -H tcp://0.0.0.0:2376"
