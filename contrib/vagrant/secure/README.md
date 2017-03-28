@@ -47,19 +47,19 @@ $ export DOCKER_CERT_PATH=./.docker
 $ export DOCKER_TLS_VERIFY=true
 $ docker version
 Client:
- Version:      1.9.1
- API version:  1.21
- Go version:   go1.4.3
- Git commit:   a34a1d5
- Built:        Fri Nov 20 17:56:04 UTC 2015
+ Version:      1.10.3
+ API version:  1.22
+ Go version:   go1.5.3
+ Git commit:   20f81dd
+ Built:        Thu Mar 10 21:49:11 2016
  OS/Arch:      darwin/amd64
 
 Server:
- Version:      1.9.1
- API version:  1.21
- Go version:   go1.4.3
- Git commit:   66c06d0-stripped
- Built:        Sun Jan 24 07:17:18 UTC 2016
+ Version:      1.10.3
+ API version:  1.22
+ Go version:   go1.7.5
+ Git commit:   20f81dd
+ Built:        Sun Mar 26 21:41:23 UTC 2017
  OS/Arch:      linux/amd64
 ```
 
