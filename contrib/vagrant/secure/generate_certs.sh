@@ -5,6 +5,8 @@ if [ "$(id -u)" != "0" ]; then
   exit 1
 fi
 
+set -e
+
 : ${DOCKER_PROFILE:=/etc/default/docker}
 if [ -f ${DOCKER_PROFILE} ]; then
   . ${DOCKER_PROFILE}
@@ -34,7 +36,7 @@ fi
 mkdir -p /opt/bin
 if [ ! -f /opt/bin/generate_cert ]; then
   echo "Get generate_cert"
-  wget -q -O /opt/bin/generate_cert https://github.com/SvenDowideit/generate_cert/releases/download/0.3/generate_cert-0.3-linux-amd64
+  wget -qO /opt/bin/generate_cert https://github.com/SvenDowideit/generate_cert/releases/download/0.3/generate_cert-0.3-linux-amd64 || rm -f /opt/bin/generate_cert
   chmod +x /opt/bin/generate_cert
 fi
 
@@ -57,7 +59,7 @@ if [ ! -f "${CACERT}" ] || [ ! -f "${CAKEY}" ]; then
   rm -f "${SERVERCERT}" "${SERVERKEY}" "${CERT}" "${KEY}" "${CERT_DIR}/hostnames"
 fi
 
-CERTS_EXISTFOR=$(cat "${CERT_DIR}/hostnames" 2>/dev/null)
+CERTS_EXISTFOR=$(cat "${CERT_DIR}/hostnames" 2>/dev/null || true)
 if [ "${CERT_HOSTNAMES}" != "${CERTS_EXISTFOR}" ]; then
   echo "Generate server cert"
   /opt/bin/generate_cert --host="${CERT_HOSTNAMES}" --ca="${CACERT}" --ca-key="${CAKEY}" --cert="${SERVERCERT}" --key="${SERVERKEY}" --org="${SERVERORG}" --overwrite
