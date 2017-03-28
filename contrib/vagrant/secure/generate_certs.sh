@@ -34,7 +34,7 @@ fi
 mkdir -p /opt/bin
 if [ ! -f /opt/bin/generate_cert ]; then
   echo "Get generate_cert"
-  wget -q -O /opt/bin/generate_cert https://github.com/SvenDowideit/generate_cert/releases/download/0.2/generate_cert-0.2-linux-amd64
+  wget -q -O /opt/bin/generate_cert https://github.com/SvenDowideit/generate_cert/releases/download/0.3/generate_cert-0.3-linux-amd64
   chmod +x /opt/bin/generate_cert
 fi
 
