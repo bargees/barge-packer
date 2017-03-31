@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 GREEN="[38;5;2m"
 RED="[38;5;1m"
@@ -60,7 +61,7 @@ DONE=false
 if [ "${VMDK_DISK_PATH}" != "${VDI_DISK_PATH}" ] ; then
   echo -e "${GREEN}Stopping the VM...${CLEAR}"
   # Resume VM if it's suspended. Otherwise, the pertition may be broken.
-  vagrant resume "${NAME}" > /dev/null 2>&1
+  vagrant resume "${NAME}" > /dev/null 2>&1 || true
   vagrant halt "${NAME}"
   # Must wait to shutdown completely
   sleep 5
@@ -85,7 +86,7 @@ if [ -n "${SIZE}" ] ; then
   if ! $DONE ; then
     echo -e "${GREEN}Stopping the VM...${CLEAR}"
     # Resume VM if it's suspended. Otherwise, the pertition may be broken.
-    vagrant resume "${NAME}" > /dev/null 2>&1
+    vagrant resume "${NAME}" > /dev/null 2>&1 || true
     vagrant halt "${NAME}"
     # Must wait to shutdown completely
     sleep 5
