@@ -1,4 +1,4 @@
-From 7a726f5c303f1e187e2e9ea2fb6c7e0dcbeb24fb Mon Sep 17 00:00:00 2001
+From 9547799af0409402c3e47817751922db56915c8d Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Mon, 20 Jun 2016 18:59:52 -0700
 Subject: [PATCH 1/2] Add a patch for regops.c
