@@ -1,5 +1,5 @@
-BARGE_VERSION  := 2.4.5
-KERNEL_VERSION := 4.9.21
+BARGE_VERSION  := 2.4.6
+KERNEL_VERSION := 4.9.25
 
 ISO_NAME := barge-hyperv.iso
 

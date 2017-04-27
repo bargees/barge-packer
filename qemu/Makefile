@@ -1,4 +1,4 @@
-BARGE_VERSION := 2.4.5
+BARGE_VERSION := 2.4.6
 
 IMG_NAME := output-qemu/barge.qcow2
 
