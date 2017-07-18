@@ -1,6 +1,6 @@
 BARGE_VERSION  := 2.5.4
 KERNEL_VERSION := 4.9.36
-VBOX_VERSION   := 5.1.22
+VBOX_VERSION   := 5.1.24
 
 BOX_NAME := barge-vbox.box
 ISO_NAME := barge-vbox.iso

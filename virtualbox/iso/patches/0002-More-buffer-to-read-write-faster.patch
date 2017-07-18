@@ -1,4 +1,4 @@
-From 7e61fb90a82603db90eaa08705dc5249bf9a285d Mon Sep 17 00:00:00 2001
+From 0d6c62469f2fde6974886bb9d303cc1bf88dbf92 Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Mon, 20 Jun 2016 19:04:01 -0700
 Subject: [PATCH 2/2] More buffer to read/write faster
