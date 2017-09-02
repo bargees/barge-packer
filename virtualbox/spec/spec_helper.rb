@@ -28,7 +28,7 @@ class Specinfra::Command::Busybox
     class RoutingTable < Specinfra::Command::Base::RoutingTable
       class << self
         def check_has_entry(destination)
-          %Q{ip route show #{destination} | awk '{print $1, "via", $5, "dev", $3, " "}'}
+          %Q{ip route show #{destination} | awk '{print $1, "via", $7, "dev", $3, " "}'}
         end
 
         alias :get_entry :check_has_entry
