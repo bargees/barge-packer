@@ -1,7 +1,7 @@
-From 34d79d60ed90719b8a65470f2d55f9873189cc72 Mon Sep 17 00:00:00 2001
+From 3374731664815f320d7924425bb27716c4a47da9 Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Mon, 20 Jun 2016 18:59:52 -0700
-Subject: [PATCH 1/2] Add a patch for regops.c
+Subject: [PATCH] Add a patch for regops.c
 
 - based on http://d.hatena.ne.jp/hiboma/20140320/1395312958
 ---
@@ -37,5 +37,5 @@ index ec4e155..967410d 100644
      .sendfile    = generic_file_sendfile,
  # endif
 -- 
-2.10.1
+2.14.1
 

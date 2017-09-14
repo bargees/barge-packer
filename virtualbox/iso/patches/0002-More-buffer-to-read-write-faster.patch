@@ -1,7 +1,7 @@
-From 442ea99cb6455faa84ca59b2e3807f85eb34486a Mon Sep 17 00:00:00 2001
+From 06ca44278d267470656fa7cfada4c1df3759ca43 Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Mon, 20 Jun 2016 19:04:01 -0700
-Subject: [PATCH 2/2] More buffer to read/write faster
+Subject: [PATCH] More buffer to read/write faster
 
 128K = VM_MAX_READAHEAD * 1024
 ---
@@ -24,5 +24,5 @@ index 967410d..7a4c442 100644
      if (!tmp)
      {
 -- 
-2.10.1
+2.14.1
 
