@@ -5,18 +5,20 @@ RUN apt-get -q update && \
       cpio kmod p7zip-full syslinux xorriso && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-ENV SRCDIR /usr/src
+ENV KERNEL_VERSION 4.9.58
+
+ENV SRCDIR /lib/modules/${KERNEL_VERSION}-barge
 WORKDIR ${SRCDIR}
 
-ENV KERNEL_VERSION 4.9.58
 COPY linux-${KERNEL_VERSION}.tar.xz ${SRCDIR}/
-RUN tar xJf linux-${KERNEL_VERSION}.tar.xz
+RUN tar xJf linux-${KERNEL_VERSION}.tar.xz && \
+    mv linux-${KERNEL_VERSION} build
 
-COPY kernel.config linux-${KERNEL_VERSION}/.config
-RUN cd linux-${KERNEL_VERSION} && \
+COPY kernel.config ${SRCDIR}/build/.config
+RUN cd build && \
     make oldconfig && \
     make prepare && make scripts && \
-    make headers_install INSTALL_HDR_PATH=${SRCDIR}
+    make headers_install
 
 ENV VBOX_VERSION 5.2.0
 RUN mkdir -p /vboxguest
@@ -36,13 +38,12 @@ RUN cd /vboxguest && \
       patch -p1 -d amd64/src/vboxguest-${VBOX_VERSION}/vboxsf < ${patch}; \
     done && \
     \
-    KERN_DIR=${SRCDIR}/linux-${KERNEL_VERSION} KERN_INCL=${SRCDIR}/include \
-      make -C amd64/src/vboxguest-${VBOX_VERSION}
+    KERN_VER=${KERNEL_VERSION}-barge make -C amd64/src/vboxguest-${VBOX_VERSION}
 
 RUN mkdir -p root
 ADD rootfs.tar.xz ${SRCDIR}/root/
 
-RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
+RUN cp /vboxguest/amd64/other/mount.vboxsf root/sbin/ && \
     cp /vboxguest/amd64/sbin/VBoxService root/sbin/ && \
     cp /vboxguest/amd64/bin/VBoxControl root/bin/ && \
     objcopy --strip-unneeded /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/vboxguest.ko \
