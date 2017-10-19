@@ -1,4 +1,4 @@
-From 3374731664815f320d7924425bb27716c4a47da9 Mon Sep 17 00:00:00 2001
+From 01a49d79c9115b8f44ce79ce6c5837f1ae5de8d8 Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Mon, 20 Jun 2016 18:59:52 -0700
 Subject: [PATCH] Add a patch for regops.c
@@ -9,10 +9,10 @@ Subject: [PATCH] Add a patch for regops.c
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/regops.c b/regops.c
-index ec4e155..967410d 100644
+index c50767a..13a3eb0 100644
 --- a/regops.c
 +++ b/regops.c
-@@ -561,6 +561,14 @@ static int sf_reg_mmap(struct file *file, struct vm_area_struct *vma)
+@@ -553,6 +553,14 @@ static int sf_reg_mmap(struct file *file, struct vm_area_struct *vma)
      return 0;
  }
  
@@ -27,7 +27,7 @@ index ec4e155..967410d 100644
  struct file_operations sf_reg_fops =
  {
      .read        = sf_reg_read,
-@@ -570,7 +578,7 @@ struct file_operations sf_reg_fops =
+@@ -562,7 +570,7 @@ struct file_operations sf_reg_fops =
      .mmap        = sf_reg_mmap,
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 0)
  # if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
