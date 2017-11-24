@@ -48,7 +48,7 @@ install: $(BOX_NAME)
 	$(VAGRANT) box add -f barge $(BOX_NAME)
 
 boot_test: install
-	$(VAGRANT) destroy -f
+	-$(VAGRANT) destroy -f
 	$(VAGRANT) up --no-provision
 	@$(VAGRANT) ssh-config > .ssh_config
 
@@ -71,9 +71,9 @@ test: boot_test
 	$(VAGRANT) suspend
 
 clean:
-	cd iso && $(VAGRANT) destroy -f
+	-cd iso && $(VAGRANT) destroy -f
 	$(RM) -r iso/.vagrant
-	$(VAGRANT) destroy -f
+	-$(VAGRANT) destroy -f
 	$(RM) -r .vagrant .ssh_config
 	$(RM) $(EXTERNAL_DEPENDENCIES)
 	$(RM) $(BOX_NAME)

@@ -27,7 +27,7 @@ iso/kernel.config iso/isolinux.cfg:
 	curl -L https://raw.githubusercontent.com/bargees/barge-os/$(BARGE_VERSION)/configs/$(@F) -o $@
 
 clean:
-	cd iso && $(VAGRANT) destroy -f
+	-cd iso && $(VAGRANT) destroy -f
 	$(RM) -r iso/.vagrant
 	$(RM) $(EXTERNAL_DEPENDENCIES)
 	$(RM) $(ISO_NAME)

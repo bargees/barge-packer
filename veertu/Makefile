@@ -41,7 +41,7 @@ install: $(BOX_NAME)
 	$(VAGRANT) box add -f --provider veertu barge $(BOX_NAME)
 
 boot_test: install
-	$(VAGRANT) destroy -f
+	-$(VAGRANT) destroy -f
 	$(VAGRANT) up --provider veertu --no-provision
 	@$(VAGRANT) ssh-config > .ssh_config
 
@@ -64,7 +64,7 @@ test: boot_test
 	$(VAGRANT) suspend
 
 clean:
-	$(VAGRANT) destroy -f
+	-$(VAGRANT) destroy -f
 	$(RM) -r .vagrant .ssh_config
 	$(RM) $(EXTERNAL_DEPENDENCIES)
 	$(RM) $(BOX_NAME)
