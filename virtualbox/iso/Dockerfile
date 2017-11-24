@@ -20,7 +20,7 @@ RUN cd build && \
     make prepare && make scripts && \
     make headers_install
 
-ENV VBOX_VERSION 5.2.0
+ENV VBOX_VERSION 5.2.2
 RUN mkdir -p /vboxguest
 COPY vboxguest.iso /vboxguest/
 COPY patches /vboxguest/patches

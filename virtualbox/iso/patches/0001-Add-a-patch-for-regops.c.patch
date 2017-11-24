@@ -1,4 +1,4 @@
-From 01a49d79c9115b8f44ce79ce6c5837f1ae5de8d8 Mon Sep 17 00:00:00 2001
+From d094ab58faec060beaf4a672b9037d3a0d036965 Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Mon, 20 Jun 2016 18:59:52 -0700
 Subject: [PATCH] Add a patch for regops.c
@@ -9,10 +9,10 @@ Subject: [PATCH] Add a patch for regops.c
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/regops.c b/regops.c
-index c50767a..13a3eb0 100644
+index 1fef7f9..b2cded7 100644
 --- a/regops.c
 +++ b/regops.c
-@@ -553,6 +553,14 @@ static int sf_reg_mmap(struct file *file, struct vm_area_struct *vma)
+@@ -554,6 +554,14 @@ static int sf_reg_mmap(struct file *file, struct vm_area_struct *vma)
      return 0;
  }
  
@@ -27,15 +27,15 @@ index c50767a..13a3eb0 100644
  struct file_operations sf_reg_fops =
  {
      .read        = sf_reg_read,
-@@ -562,7 +570,7 @@ struct file_operations sf_reg_fops =
-     .mmap        = sf_reg_mmap,
- #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 0)
- # if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
+@@ -566,7 +574,7 @@ struct file_operations sf_reg_fops =
+ /** @todo This code is known to cause caching of data which should not be
+  * cached.  Investigate. */
+ #  if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
 -    .splice_read = generic_file_splice_read,
 +    .splice_read = sf_reg_splice_read,
- # else
+ #  else
      .sendfile    = generic_file_sendfile,
- # endif
+ #  endif
 -- 
 2.14.1
 
