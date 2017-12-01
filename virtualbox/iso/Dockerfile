@@ -5,7 +5,7 @@ RUN apt-get -q update && \
       cpio kmod p7zip-full syslinux xorriso && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-ENV KERNEL_VERSION 4.9.58
+ENV KERNEL_VERSION 4.9.66
 
 ENV SRCDIR /lib/modules/${KERNEL_VERSION}-barge
 WORKDIR ${SRCDIR}
