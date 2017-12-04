@@ -1,0 +1,43 @@
+From e22eb0e6a8b23d7e4a24864cc576146592ba3db6 Mon Sep 17 00:00:00 2001
+From: "A.I" <ailis@paw.zone>
+Date: Sun, 3 Dec 2017 22:30:51 -0800
+Subject: [PATCH] =?UTF-8?q?Revert=20=E2=80=9CChangeset=2069165=20=E2=80=93?=
+ =?UTF-8?q?=20Oracle=20VM=20VirtualBox=E2=80=9D?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+https://www.virtualbox.org/changeset/69165/vbox
+---
+ regops.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/regops.c b/regops.c
+index 1fef7f9..366a8d4 100644
+--- a/regops.c
++++ b/regops.c
+@@ -562,14 +562,15 @@ struct file_operations sf_reg_fops =
+     .release     = sf_reg_release,
+     .mmap        = sf_reg_mmap,
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 0)
+-# if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 31)
+-/** @todo This code is known to cause caching of data which should not be
+- * cached.  Investigate. */
+-#  if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
++# if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
+     .splice_read = generic_file_splice_read,
+-#  else
++# else
+     .sendfile    = generic_file_sendfile,
+-#  endif
++# endif
++# if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0)
++    .read_iter   = generic_file_read_iter,
++    .write_iter  = generic_file_write_iter,
++# else
+     .aio_read    = generic_file_aio_read,
+     .aio_write   = generic_file_aio_write,
+ # endif
+-- 
+2.14.1
+
