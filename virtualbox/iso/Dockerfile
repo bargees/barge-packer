@@ -5,20 +5,17 @@ RUN apt-get -q update && \
       cpio kmod p7zip-full syslinux xorriso && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-ENV KERNEL_VERSION 4.9.66
-
-ENV SRCDIR /lib/modules/${KERNEL_VERSION}-barge
+ENV SRCDIR /usr/src
 WORKDIR ${SRCDIR}
 
+ENV KERNEL_VERSION 4.9.66
 COPY linux-${KERNEL_VERSION}.tar.xz ${SRCDIR}/
-RUN tar xJf linux-${KERNEL_VERSION}.tar.xz && \
-    mv linux-${KERNEL_VERSION} build
+RUN tar xJf linux-${KERNEL_VERSION}.tar.xz
 
-COPY kernel.config ${SRCDIR}/build/.config
-RUN cd build && \
+COPY kernel.config linux-${KERNEL_VERSION}/.config
+RUN cd linux-${KERNEL_VERSION} && \
     make oldconfig && \
-    make prepare && make scripts && \
-    make headers_install
+    make prepare && make scripts
 
 ENV VBOX_VERSION 5.2.2
 RUN mkdir -p /vboxguest
@@ -38,7 +35,8 @@ RUN cd /vboxguest && \
       patch -p1 -d amd64/src/vboxguest-${VBOX_VERSION}/vboxsf < ${patch}; \
     done && \
     \
-    KERN_VER=${KERNEL_VERSION}-barge make -C amd64/src/vboxguest-${VBOX_VERSION}
+    make -C amd64/src/vboxguest-${VBOX_VERSION} \
+      KERN_DIR=${SRCDIR}/linux-${KERNEL_VERSION} KERN_VER=${KERNEL_VERSION}
 
 RUN mkdir -p root
 ADD rootfs.tar.xz ${SRCDIR}/root/
