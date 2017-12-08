@@ -15,8 +15,7 @@ RUN tar xJf linux-${KERNEL_VERSION}.tar.xz
 COPY kernel.config linux-${KERNEL_VERSION}/.config
 RUN cd linux-${KERNEL_VERSION} && \
     make oldconfig && \
-    make prepare && make scripts && \
-    make headers_install INSTALL_HDR_PATH=${SRCDIR}
+    make prepare && make scripts
 
 ENV VBOX_VERSION 5.2.2
 RUN mkdir -p /vboxguest
@@ -36,13 +35,13 @@ RUN cd /vboxguest && \
       patch -p1 -d amd64/src/vboxguest-${VBOX_VERSION}/vboxsf < ${patch}; \
     done && \
     \
-    KERN_DIR=${SRCDIR}/linux-${KERNEL_VERSION} KERN_INCL=${SRCDIR}/include \
-      make -C amd64/src/vboxguest-${VBOX_VERSION}
+    make -C amd64/src/vboxguest-${VBOX_VERSION} \
+      KERN_DIR=${SRCDIR}/linux-${KERNEL_VERSION} KERN_VER=${KERNEL_VERSION}
 
 RUN mkdir -p root
 ADD rootfs.tar.xz ${SRCDIR}/root/
 
-RUN cp /vboxguest/amd64/lib/VBoxGuestAdditions/mount.vboxsf root/sbin/ && \
+RUN cp /vboxguest/amd64/other/mount.vboxsf root/sbin/ && \
     cp /vboxguest/amd64/sbin/VBoxService root/sbin/ && \
     cp /vboxguest/amd64/bin/VBoxControl root/bin/ && \
     objcopy --strip-unneeded /vboxguest/amd64/src/vboxguest-${VBOX_VERSION}/vboxguest.ko \
