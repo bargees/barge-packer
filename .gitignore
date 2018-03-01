@@ -15,11 +15,6 @@ virtualbox/iso/*
 !virtualbox/iso/patches/
 !virtualbox/iso/S10vbox
 
-veertu/box/*
-!veertu/box/metadata.json
-!veertu/box/Vagrantfile
-!veertu/box/prepare_nfs_settings.rb
-
 hyperv/iso/*
 !hyperv/iso/.dockerignore
 !hyperv/iso/Vagrantfile

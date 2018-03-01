@@ -1,4 +1,4 @@
-SUBDIRS := virtualbox qemu veertu hyperv
+SUBDIRS := virtualbox qemu hyperv
 
 all: $(SUBDIRS)
 
