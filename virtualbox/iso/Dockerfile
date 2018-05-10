@@ -17,7 +17,7 @@ RUN cd linux-${KERNEL_VERSION} && \
     make oldconfig && \
     make prepare && make scripts
 
-ENV VBOX_VERSION 5.2.10
+ENV VBOX_VERSION 5.2.12
 RUN mkdir -p /vboxguest
 COPY vboxguest.iso /vboxguest/
 COPY patches /vboxguest/patches
