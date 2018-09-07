@@ -34,10 +34,13 @@
   "provisioners": [{
     "type": "shell",
     "inline": [
-      "(echo n; echo p; echo 2; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/sda",
+      "sudo fdisk -l",
+      "(echo n; echo p; echo 2; echo; echo +1G; echo w;) | sudo fdisk /dev/sda",
       "(echo t; echo 82; echo w;) | sudo fdisk /dev/sda",
       "sudo mkswap -L BARGE-SWAP /dev/sda2",
-      "(echo n; echo p; echo 1; echo ; echo ; echo w;) | sudo fdisk /dev/sda",
+      "sudo fdisk -l",
+      "(echo n; echo p; echo 1; echo 2097215; echo; echo w;) | sudo fdisk /dev/sda",
+      "sudo fdisk -l",
       "sudo mkfs.ext4 -b 4096 -i 4096 -F -L BARGE-DATA /dev/sda1",
 
       "sudo mkdir -p /mnt/sda1",

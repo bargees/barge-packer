@@ -29,10 +29,13 @@
     "inline": [
       "sudo dd if=/tmp/barge.img of=/dev/vda",
 
-      "(echo n; echo p; echo 3; echo ; echo +1000M ; echo w;) | sudo fdisk /dev/vda",
+      "sudo fdisk -l",
+      "(echo n; echo p; echo 3; echo 26636; echo +1G; echo w;) | sudo fdisk /dev/vda",
       "(echo t; echo 3; echo 82; echo w;) | sudo fdisk /dev/vda",
       "sudo mkswap -L BARGE-SWAP /dev/vda3",
-      "(echo n; echo p; echo 2; echo ; echo ; echo w;) | sudo fdisk /dev/vda",
+      "sudo fdisk -l",
+      "(echo n; echo p; echo 2; echo; echo; echo w;) | sudo fdisk /dev/vda",
+      "sudo fdisk -l",
       "sudo mkfs.ext4 -b 4096 -i 4096 -F -L BARGE-DATA /dev/vda2",
 
       "sudo mkdir -p /mnt/vda2",
