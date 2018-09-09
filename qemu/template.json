@@ -30,7 +30,7 @@
       "sudo dd if=/tmp/barge.img of=/dev/vda",
 
       "sudo fdisk -l",
-      "(echo n; echo p; echo 3; echo 26636; echo +1G; echo w;) | sudo fdisk /dev/vda",
+      "(echo x; echo s; echo 63; echo r; echo n; echo p; echo 3; echo; echo +1G; echo w;) | sudo fdisk /dev/vda",
       "(echo t; echo 3; echo 82; echo w;) | sudo fdisk /dev/vda",
       "sudo mkswap -L BARGE-SWAP /dev/vda3",
       "sudo fdisk -l",

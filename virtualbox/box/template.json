@@ -35,11 +35,11 @@
     "type": "shell",
     "inline": [
       "sudo fdisk -l",
-      "(echo n; echo p; echo 2; echo; echo +1G; echo w;) | sudo fdisk /dev/sda",
+      "(echo n; echo p; echo 2; echo; echo +1G; echo w;) | sudo fdisk -S 8 /dev/sda",
       "(echo t; echo 82; echo w;) | sudo fdisk /dev/sda",
       "sudo mkswap -L BARGE-SWAP /dev/sda2",
       "sudo fdisk -l",
-      "(echo n; echo p; echo 1; echo 2097215; echo; echo w;) | sudo fdisk /dev/sda",
+      "(echo n; echo p; echo 1; echo; echo; echo w;) | sudo fdisk /dev/sda",
       "sudo fdisk -l",
       "sudo mkfs.ext4 -b 4096 -i 4096 -F -L BARGE-DATA /dev/sda1",
 
