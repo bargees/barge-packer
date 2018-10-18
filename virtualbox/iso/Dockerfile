@@ -17,7 +17,7 @@ RUN cd linux-${KERNEL_VERSION} && \
     make oldconfig && \
     make prepare && make scripts
 
-ENV VBOX_VERSION 5.2.18
+ENV VBOX_VERSION 5.2.20
 RUN mkdir -p /vboxguest
 COPY vboxguest.iso /vboxguest/
 COPY patches /vboxguest/patches
@@ -29,13 +29,11 @@ RUN cd /vboxguest && \
     mkdir -p amd64 && tar -C amd64 -xjf VBoxGuestAdditions-amd64.tar.bz2 && \
     rm -f VBoxGuestAdditions-amd64.tar.bz2 && \
     \
-    rm -rf amd64/src/vboxguest-${VBOX_VERSION}/vboxvideo && \
-    \
     for patch in /vboxguest/patches/*.patch; do \
       patch -p1 -d amd64/src/vboxguest-${VBOX_VERSION}/vboxsf < ${patch}; \
     done && \
     \
-    make -C amd64/src/vboxguest-${VBOX_VERSION} \
+    make -C amd64/src/vboxguest-${VBOX_VERSION} vboxguest vboxsf \
       KERN_DIR=${SRCDIR}/linux-${KERNEL_VERSION} KERN_VER=${KERNEL_VERSION}
 
 RUN mkdir -p root
