@@ -17,7 +17,8 @@
     "qemuargs": [
       ["-m", "1024"]
     ],
-    "disk_compression": true
+    "disk_compression": true,
+    "skip_compaction": true
   }],
 
   "provisioners": [{
