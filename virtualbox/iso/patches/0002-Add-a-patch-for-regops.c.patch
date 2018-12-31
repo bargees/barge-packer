@@ -1,6 +1,6 @@
-From 21f056abbc280088de0dfd162e29faef20f4c54a Mon Sep 17 00:00:00 2001
+From 06ac2939b9912680d020c9fdcde8804d04f0b895 Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
-Date: Mon, 20 Jun 2016 18:59:52 -0700
+Date: Sun, 30 Dec 2018 18:47:44 -0800
 Subject: [PATCH] Add a patch for regops.c
 
 - based on http://d.hatena.ne.jp/hiboma/20140320/1395312958
@@ -9,33 +9,33 @@ Subject: [PATCH] Add a patch for regops.c
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/regops.c b/regops.c
-index 366a8d4..a756ee7 100644
+index 600d79b..03efcdf 100644
 --- a/regops.c
 +++ b/regops.c
-@@ -554,6 +554,14 @@ static int sf_reg_mmap(struct file *file, struct vm_area_struct *vma)
-     return 0;
+@@ -701,6 +701,14 @@ static int sf_reg_mmap(struct file *file, struct vm_area_struct *vma)
+ 	return 0;
  }
  
 +ssize_t sf_reg_splice_read(struct file *in, loff_t *ppos,
-+                           struct pipe_inode_info *pipe, size_t len,
-+                           unsigned int flags)
++			   struct pipe_inode_info *pipe, size_t len,
++			   unsigned int flags)
 +{
-+    invalidate_mapping_pages(in->f_mapping, 0, -1);
-+    return generic_file_splice_read(in, ppos, pipe, len, flags);
++	invalidate_mapping_pages(in->f_mapping, 0, -1);
++	return generic_file_splice_read(in, ppos, pipe, len, flags);
 +}
 +
- struct file_operations sf_reg_fops =
- {
-     .read        = sf_reg_read,
-@@ -563,7 +571,7 @@ struct file_operations sf_reg_fops =
-     .mmap        = sf_reg_mmap,
- #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 0)
- # if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
--    .splice_read = generic_file_splice_read,
-+    .splice_read = sf_reg_splice_read,
- # else
-     .sendfile    = generic_file_sendfile,
- # endif
+ struct file_operations sf_reg_fops = {
+ 	.read = sf_reg_read,
+ 	.open = sf_reg_open,
+@@ -712,7 +720,7 @@ struct file_operations sf_reg_fops = {
+ #if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 31)
+ 	.splice_read = sf_splice_read,
+ #else
+-	.splice_read = generic_file_splice_read,
++	.splice_read = sf_reg_splice_read,
+ #endif
+ #else
+ 	.sendfile = generic_file_sendfile,
 -- 
-2.14.1
+2.17.2 (Apple Git-113)
 
