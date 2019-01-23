@@ -1,4 +1,4 @@
-From 6c1ebc8b80f2ccb4ff01ce811019d04f3f441f04 Mon Sep 17 00:00:00 2001
+From b26351276989ed45e8528ea88058f93c4208aecc Mon Sep 17 00:00:00 2001
 From: "A.I" <ailis@paw.zone>
 Date: Sun, 30 Dec 2018 18:41:43 -0800
 Subject: [PATCH] Use generic_file_ functions for newer kernels
@@ -14,32 +14,32 @@ https://www.virtualbox.org/changeset/69165/vbox
  1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/regops.c b/regops.c
-index 77858ac..600d79b 100644
+index 5187ab7..1b5f7ca 100644
 --- a/regops.c
 +++ b/regops.c
 @@ -708,14 +708,19 @@ struct file_operations sf_reg_fops = {
  	.release = sf_reg_release,
  	.mmap = sf_reg_mmap,
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 0)
--#if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 31)
+-# if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 31)
 -/** @todo This code is known to cause caching of data which should not be
 - * cached.  Investigate. */
- #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 31)
+ # if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 23)
++#  if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 31)
  	.splice_read = sf_splice_read,
-+#else
++#  else
 +	.splice_read = generic_file_splice_read,
-+#endif
- #else
++#  endif
+ # else
  	.sendfile = generic_file_sendfile,
- #endif
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0)
+ # endif
++# if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0)
 +	.read_iter = generic_file_read_iter,
 +	.write_iter = generic_file_write_iter,
-+#else
++# else
  	.aio_read = generic_file_aio_read,
  	.aio_write = generic_file_aio_write,
- #endif
+ # endif
 -- 
 2.17.2 (Apple Git-113)
 
