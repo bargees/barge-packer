@@ -1,6 +1,6 @@
 BARGE_VERSION  := 2.13.0
 KERNEL_VERSION := 4.14.125
-VBOX_VERSION   := 6.0.4
+VBOX_VERSION   := 6.0.6
 
 BOX_NAME := barge-vbox.box
 ISO_NAME := barge-vbox.iso
@@ -22,8 +22,7 @@ $(BOX_NAME): $(ISO_NAME) box/template.json box/vagrantfile.tpl \
 	cd box && \
 		$(PACKER) build template.json
 
-$(ISO_NAME): iso/Dockerfile $(EXTERNAL_DEPENDENCIES) $(shell find iso/patches -type f) \
-	iso/S10vbox
+$(ISO_NAME): iso/Dockerfile $(EXTERNAL_DEPENDENCIES) iso/S10vbox
 	$(VAGRANT) suspend
 	cd iso && \
 		$(VAGRANT) up --no-provision && \
