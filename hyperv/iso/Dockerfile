@@ -1,8 +1,18 @@
-FROM ailispaw/ubuntu-essential:14.04-nodoc
+FROM ailispaw/ubuntu-essential:18.04-nodoc
+
+ENV SYSLINUX_SITE=https://mirrors.edge.kernel.org/ubuntu/pool/main/s/syslinux \
+    SYSLINUX_VERSION=4.05+dfsg-6+deb8u1
 
 RUN apt-get -q update && \
-    apt-get -q -y install --no-install-recommends bc build-essential cpio syslinux xorriso && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get -q -y install --no-install-recommends bc build-essential cpio syslinux xorriso \
+      ca-certificates wget && \
+    wget -q "${SYSLINUX_SITE}/syslinux-common_${SYSLINUX_VERSION}_all.deb" && \
+    wget -q "${SYSLINUX_SITE}/syslinux_${SYSLINUX_VERSION}_amd64.deb" && \
+    dpkg -i "syslinux-common_${SYSLINUX_VERSION}_all.deb" && \
+    dpkg -i "syslinux_${SYSLINUX_VERSION}_amd64.deb" && \
+    rm -f "syslinux-common_${SYSLINUX_VERSION}_all.deb" && \
+    rm -f "syslinux_${SYSLINUX_VERSION}_amd64.deb" && \
+    apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /var/cache/debconf/* /var/log/*
 
 ENV SRCDIR /usr/src
 WORKDIR ${SRCDIR}
