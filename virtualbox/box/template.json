@@ -1,11 +1,15 @@
 {
+  "variables": {
+    "ISO_CHECKSUM": ""
+  },
+
   "builders": [{
     "name": "virtualbox",
     "type": "virtualbox-iso",
     "vm_name": "barge-packer",
-    "iso_interface": "sata",
+    "iso_interface": "ide",
     "iso_url": "../barge-vbox.iso",
-    "iso_checksum_type": "none",
+    "iso_checksum": "sha256:{{user `ISO_CHECKSUM`}}",
     "boot_wait": "5s",
     "ssh_username": "bargee",
     "ssh_password": "bargee",
@@ -15,19 +19,19 @@
     "disk_size": 40960,
     "hard_drive_interface": "sata",
     "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--memory", "1024", "--rtcuseutc", "on", "--pae", "off"],
-      ["modifyvm", "{{.Name}}", "--x2apic", "on", "--biosapic", "x2apic", "--audio", "none"],
-      ["modifyvm", "{{.Name}}", "--boot1", "dvd", "--boot2", "disk"],
-      ["modifyvm", "{{.Name}}", "--vrde", "off", "--vrdeport", "default", "--vrdeaddress", ""],
-      ["modifyvm", "{{.Name}}", "--nictype1", "virtio"],
-      ["modifyvm", "{{.Name}}", "--nictype2", "virtio"],
-      ["modifyvm", "{{.Name}}", "--nictype3", "virtio"],
-      ["modifyvm", "{{.Name}}", "--nictype4", "virtio"],
-      ["modifyvm", "{{.Name}}", "--nictype5", "virtio"],
-      ["modifyvm", "{{.Name}}", "--nictype6", "virtio"],
-      ["modifyvm", "{{.Name}}", "--nictype7", "virtio"],
-      ["modifyvm", "{{.Name}}", "--nictype8", "virtio"],
-      ["storagectl", "{{.Name}}", "--name", "SATA Controller", "--portcount", "2"]
+      [ "modifyvm", "{{.Name}}", "--memory", "1024", "--rtcuseutc", "on", "--pae", "off" ],
+      [ "modifyvm", "{{.Name}}", "--x2apic", "on", "--biosapic", "x2apic", "--audio", "none" ],
+      [ "modifyvm", "{{.Name}}", "--boot1", "dvd", "--boot2", "disk" ],
+      [ "modifyvm", "{{.Name}}", "--vrde", "off", "--vrdeport", "default", "--vrdeaddress", "" ],
+      [ "modifyvm", "{{.Name}}", "--nictype1", "virtio" ],
+      [ "modifyvm", "{{.Name}}", "--nictype2", "virtio" ],
+      [ "modifyvm", "{{.Name}}", "--nictype3", "virtio" ],
+      [ "modifyvm", "{{.Name}}", "--nictype4", "virtio" ],
+      [ "modifyvm", "{{.Name}}", "--nictype5", "virtio" ],
+      [ "modifyvm", "{{.Name}}", "--nictype6", "virtio" ],
+      [ "modifyvm", "{{.Name}}", "--nictype7", "virtio" ],
+      [ "modifyvm", "{{.Name}}", "--nictype8", "virtio" ],
+      [ "storagectl", "{{.Name}}", "--name", "SATA Controller", "--portcount", "2" ]
     ]
   }],
 
@@ -65,7 +69,7 @@
 
   "post-processors": [{
     "type": "vagrant",
-    "only": ["virtualbox"],
+    "only": [ "virtualbox" ],
     "include": [
       "../barge-vbox.iso",
       "vagrant_plugin_guest_busybox.rb",
