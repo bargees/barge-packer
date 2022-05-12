@@ -20,7 +20,7 @@ $(BOX_NAME): $(ISO_NAME) box/template.json box/vagrantfile.tpl \
 	box/network_dhcp.erb \
 	../assets/profile ../assets/init.sh
 	cd box && \
-		$(PACKER) build template.json
+		$(PACKER) build -var "ISO_CHECKSUM=$(shell shasum -a 256 $(ISO_NAME) | awk '{print $$1}')" template.json
 
 $(ISO_NAME): iso/Dockerfile $(EXTERNAL_DEPENDENCIES) iso/S10vbox
 	$(VAGRANT) suspend
