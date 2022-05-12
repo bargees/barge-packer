@@ -26,7 +26,7 @@ RUN cd linux-${KERNEL_VERSION} && \
     make oldconfig && \
     make prepare && make scripts
 
-ENV VBOX_VERSION 6.0.12
+ENV VBOX_VERSION 6.1.34
 RUN mkdir -p /vboxguest
 COPY vboxguest.iso /vboxguest/
 RUN cd /vboxguest && \
