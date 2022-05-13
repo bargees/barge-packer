@@ -11,7 +11,7 @@ set -e
 if [ -f ${DOCKER_PROFILE} ]; then
   . ${DOCKER_PROFILE}
 fi
-: ${DOCKER_STORAGE:="overlay"}
+: ${DOCKER_STORAGE:="overlay2"}
 : ${DOCKER_DIR:="/var/lib/docker"}
 : ${DOCKER_HOST:="-H unix://"}
 : ${DOCKER_EXTRA_ARGS="--userland-proxy=false"}

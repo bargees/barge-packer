@@ -1,4 +1,4 @@
-# DOCKER_STORAGE="overlay"
+# DOCKER_STORAGE="overlay2"
 
 # DOCKER_DIR="/var/lib/docker"
 
