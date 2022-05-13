@@ -1,4 +1,4 @@
-FROM ailispaw/ubuntu-essential:18.04-nodoc
+FROM ailispaw/ubuntu-essential:16.04-nodoc
 
 ENV SYSLINUX_SITE=https://mirrors.edge.kernel.org/ubuntu/pool/main/s/syslinux \
     SYSLINUX_VERSION=4.05+dfsg-6+deb8u1
