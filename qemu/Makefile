@@ -6,7 +6,7 @@ EXTERNAL_DEPENDENCIES := barge.iso barge.img
 
 $(IMG_NAME): barge.iso barge.img template.json ../assets/profile
 	$(RM) -r output-qemu
-	packer build template.json
+	packer build -var "ISO_CHECKSUM=$(shell shasum -a 256 barge.iso | awk '{print $$1}')" template.json
 
 $(EXTERNAL_DEPENDENCIES):
 	curl -L https://github.com/bargees/barge-os/releases/download/$(BARGE_VERSION)/$(@F) -o $@
