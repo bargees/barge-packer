@@ -8,15 +8,15 @@ end
 describe interface('eth1') do
   it { should exist }
   it { should be_up }
-  it { should have_ipv4_address("192.168.33.10") }
+  it { should have_ipv4_address("192.168.56.10") }
 end
 
 describe routing_table do
   it do
     should have_entry(
-      :destination => '192.168.33.0/24',
+      :destination => '192.168.56.0/24',
       :interface   => 'eth1',
-      :gateway     => '192.168.33.10',
+      :gateway     => '192.168.56.10',
     )
   end
 end
